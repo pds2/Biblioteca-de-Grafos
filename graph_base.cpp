@@ -27,7 +27,14 @@ Graph::~Graph(){
     delete [] this->d;
     delete [] this->matrix;
 }
+int **Graph::get_matrix(){
+    return this->matrix;
+}
 void Graph::add_weighted_edge(int bg, int en, int w){
+    if(bg > this->vertices or en > this->vertices){
+        std::cout << "The edge you asked to add uses an vertex that is not on the graph" << std::endl;
+        return;
+    }
     if(!this->matrix[bg][en]){
         this->matrix[0][0]++;
         this->matrix[bg][0]++;
@@ -36,21 +43,28 @@ void Graph::add_weighted_edge(int bg, int en, int w){
     this->matrix[bg][en] = w;
 }
 void Graph::add_edge(int bg, int en){
-  this->add_weighted_edge(bg, en, 1);
+    this->add_weighted_edge(bg, en, 1);
+}
+int Graph::has_edge(int bg, int en){
+    return this->matrix[bg][en];
 }
 void Graph::remove_edge(int bg, int en){
-    if(this->matrix[bg][en]){
-        this->matrix[bg][en] = 0;
-        this->matrix[0][0]--;
-        this->matrix[bg][0]--;
-        this->matrix[0][en]--;
+    if(bg > this->vertices or en > this->vertices or !this->matrix[bg][en]){
+        std::cout << "The edge you asked to remove is not on the graph" << std::endl;
+        return;
     }
+    this->matrix[bg][en] = 0;
+    this->matrix[0][0]--;
+    this->matrix[bg][0]--;
+    this->matrix[0][en]--;
 }
-int Graph::check_grau(int v){
+int Graph::check_degree(int v){
+    if(v > this->vertices){
+        std::cout << "This vertex is not on the graph" << std::endl;
+        return 0;
+    }
     return this->matrix[v][0];
 }
-// int Graph::connected(){
-// }
 int Graph::order(){
     return this->vertices;
 }
@@ -111,6 +125,10 @@ int Graph::bipartite(){
     return 1;
 }
 int Graph::dijkstra(int bg, int en){
+    if(bg > this->vertices or en > this->vertices){
+        std::cout << "One of these vertices is not on the graph" << std::endl;
+        return INF;
+    }
     memset(this->d, INF, sizeof(this->d));
     this->d[bg] = 0;
     std::priority_queue<ii> q;
@@ -136,6 +154,8 @@ int Graph::dijkstra(int bg, int en){
 int Graph::euler_graph(){
     for(int i = 1; i <= this->vertices; i++){
         if(this->matrix[i][0]%2)
+            return 0;
+        if(this->matrix[0][i]%2)
             return 0;
     }
     return 1;

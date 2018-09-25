@@ -11,13 +11,12 @@ class Graph{
   public:
     Graph(int n);
     ~Graph();
+    int **get_matrix();
     void add_edge(int bg, int en);
     void add_weighted_edge(int bg, int en, int w);
+    int has_edge(int bg, int en);
     void remove_edge(int bg, int en);
-    int check_grau(int v);
-    // int connected();
-    int get_component(int v);
-    int colouring();
+    int check_degree(int v);
     int order();
     int size();
     int complete();
