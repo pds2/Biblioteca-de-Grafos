@@ -6,7 +6,7 @@ class Graph{
     int edges;
     int **matrix;
     int *cc;
-    int *d;
+    int *distance;
     int vertices;
   public:
     Graph(int n);

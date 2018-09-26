@@ -50,7 +50,7 @@ void Directed::kosaraju(){
 }
 void Directed::dfs(int u, int pass, int color, std::vector<int> &pilha){
     this->scc[u-1] = color;
-    int *vizinhos;
+    int *vizinhos; // Englês TODO: Englês
     if(pass == 1){
         vizinhos = this->original[u];
     }else{

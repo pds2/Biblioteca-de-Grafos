@@ -7,10 +7,11 @@ typedef std::pair<int, int> ii;
 Graph::Graph(int n){
     if(n > 10000){
         std::cout << "Not enough memory space" << std::endl;
+        return;
     }
     this->vertices = n;
     this->cc = new int[n];
-    this->d = new int[n];
+    this->distance = new int[n];
     this->matrix = new int*[n+1];
     for(int i = 0; i < n; i++){
         this->matrix[i] = new int[n+1];
@@ -24,7 +25,7 @@ Graph::~Graph(){
     }
     this->edges = 0;
     delete [] this->cc;
-    delete [] this->d;
+    delete [] this->distance;
     delete [] this->matrix;
 }
 int **Graph::get_matrix(){
@@ -129,29 +130,30 @@ int Graph::dijkstra(int bg, int en){
         std::cout << "One of these vertices is not on the graph" << std::endl;
         return INF;
     }
-    memset(this->d, INF, sizeof(this->d));
-    this->d[bg] = 0;
+    memset(this->distance, INF, sizeof(this->distance));
+    this->distance[bg] = 0;
     std::priority_queue<ii> q;
     q.push(std::make_pair(0, bg));
     while(!q.empty()){
         int dis = -q.top().first;
         int u = q.top().second;
         q.pop();
-        if(dis > this->d[u])
+        if(dis > this->distance[u])
             continue;
         for(int i = 1; i <= this->vertices; i++){
             int w = this->matrix[u][i];
             if(!this->matrix[u][i])
                 continue;
-            if(d[i] > d[u] + w){
-                d[i] = d[u] + w;
-                q.push(std::make_pair(-d[i], i));
+            if(this->distance[i] > this->distance[u] + w){
+                this->distance[i] = this->distance[u] + w;
+                q.push(std::make_pair(-this->distance[i], i));
             }
         }
     }
-    return d[en];
+    return this->distance[en];
 }
 int Graph::euler_graph(){
+    // VERIFICAR SE O GRAFO É CONEXO
     for(int i = 1; i <= this->vertices; i++){
         if(this->matrix[i][0]%2)
             return 0;
