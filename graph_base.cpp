@@ -10,7 +10,7 @@ Graph::Graph(int n){
         return;
     }
     this->vertices = n;
-    this->cc = new int[n];
+    this->has_negative_w = 0;
     this->distance = new int[n];
     this->matrix = new int*[n+1];
     for(int i = 0; i < n; i++){
@@ -23,8 +23,7 @@ Graph::~Graph(){
     while(this->vertices--){
         delete [] this->matrix[this->vertices];
     }
-    this->edges = 0;
-    delete [] this->cc;
+    this->edges =  this->has_negative_w = 0;
     delete [] this->distance;
     delete [] this->matrix;
 }
@@ -41,6 +40,10 @@ void Graph::add_weighted_edge(int bg, int en, int w){
         this->matrix[bg][0]++;
         this->matrix[0][en]++;
     }
+    if(this->matrix[bg][en] >= 0){
+        if(w < 0)
+            this->has_negative_w++;
+    }
     this->matrix[bg][en] = w;
 }
 void Graph::add_edge(int bg, int en){
@@ -54,6 +57,8 @@ void Graph::remove_edge(int bg, int en){
         std::cout << "The edge you asked to remove is not on the graph" << std::endl;
         return;
     }
+    if(this->matrix[bg][en] < 0)
+        this->has_negative_w--;
     this->matrix[bg][en] = 0;
     this->matrix[0][0]--;
     this->matrix[bg][0]--;
@@ -165,6 +170,7 @@ int Graph::euler_graph(){
 int Graph::subgraph(Graph &g){
     if(g.vertices > this->vertices)
         return 0;
+        
     for(int i = 1; i <= g.vertices; i++){
         for(int j = 1; j <= g.vertices; j++){
             if(g.matrix[i][j] and !this->matrix[i][j])

@@ -5,9 +5,10 @@ class Graph{
   private:
     int edges;
     int **matrix;
-    int *cc;
     int *distance;
+    int has_negative_w;
     int vertices;
+    int dijkstra(int bg, int en);
   public:
     Graph(int n);
     ~Graph();
@@ -22,7 +23,6 @@ class Graph{
     int complete();
     int regular();
     int bipartite();
-    int dijkstra(int bg, int en);
     int euler_graph();
     int subgraph(Graph &g);
 };
