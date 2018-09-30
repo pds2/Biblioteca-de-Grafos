@@ -38,7 +38,7 @@ void Directed::add_weighted_edge(int bg, int en, int way, int weight){
 int Directed::connected(){
     if(this->is_connected != -1)
         return this->is_connected;
-        
+
     this->kosaraju();
     this->is_connected = 0;
     if(this->sccs == 1)

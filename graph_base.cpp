@@ -99,7 +99,6 @@ int Graph::regular(){
 }
 int Graph::bipartite(){
     int colors[this->vertices];
-    int used = 1;
     memset(colors, 0, sizeof(colors));
     std::stack<int> s;
     s.push(1);
@@ -170,7 +169,7 @@ int Graph::euler_graph(){
 int Graph::subgraph(Graph &g){
     if(g.vertices > this->vertices)
         return 0;
-        
+
     for(int i = 1; i <= g.vertices; i++){
         for(int j = 1; j <= g.vertices; j++){
             if(g.matrix[i][j] and !this->matrix[i][j])

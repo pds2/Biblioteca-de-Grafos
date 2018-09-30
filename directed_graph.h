@@ -1,5 +1,7 @@
 #ifndef DIRECTED_GRAPH
 #define DIRECTED_GRAPH
+#include <stack>
+#include <vector>
 #include "graph_base.h"
 
 class Directed : public Graph{
