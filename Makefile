@@ -1,11 +1,6 @@
 ## Variables Declaration ##
 # Executable
-BIN_NAME = graph_library
-
-# Extensions
-SRC_EXT = cpp
-HEAD_EXT = h
-OUT_EXT = o
+PROG_NAME = graph_library
 
 # Compiler and flags
 CC = g++
@@ -23,10 +18,10 @@ OUT_OBJS = $(GB).o $(DG).o $(MAIN).o
 ## Makefile Functions Declaration ##
 
 # This will be run when "make" or "make default" command is given
-default: $(BIN_NAME)
+default: $(PROG_NAME)
 
-$(BIN_NAME): $(OUT_OBJS)
-	$(CC) -o $(BIN_NAME) $(OUT_OBJS)
+$(PROG_NAME): $(OUT_OBJS)
+	$(CC) -o $(PROG_NAME) $(OUT_OBJS)
 
 $(GB).o: $(GB).cpp $(GB).h
 	$(CC) $(CC_FLAGS) -c $(GB).cpp $(GB).h
@@ -39,4 +34,4 @@ $(MAIN).o: $(MAIN).cpp
 
 # This will be run when "make clean" command is given
 clean:
-	$(RM) *.o $(BIN_NAME) *~
+	$(RM) *.o *.out *.exe $(PROG_NAME) *~
