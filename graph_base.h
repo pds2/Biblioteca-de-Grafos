@@ -2,7 +2,7 @@
 #define GRAPH_BASE
 
 class Graph{
-  private:
+  protected:
     int edges;
     int **matrix;
     int *distance;
