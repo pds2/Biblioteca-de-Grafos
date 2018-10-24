@@ -25,6 +25,7 @@ class Graph{
     int bipartite();
     int euler_graph();
     int subgraph(Graph &g);
+    int funcao_teste();
 };
 
 #endif

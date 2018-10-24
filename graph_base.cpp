@@ -178,3 +178,6 @@ int Graph::subgraph(Graph &g){
     }
     return 1;
 }
+int Graph::funcao_teste(){
+    return 1;
+}
