@@ -60,7 +60,7 @@ void Graph::remove_edge(int bg, int en){
     }if(en <= 0 or bg >= this->order()){
         throw std::invalid_argument("Posição final para a aresta inválida");
     }
-    if(bg > this->vertices or en > this->vertices or !this->matrix[bg][en]){
+    if(!this->matrix[bg][en]){
         throw std::invalid_argument("A aresta não está no grafo");
     }
     if(this->matrix[bg][en] < 0)
