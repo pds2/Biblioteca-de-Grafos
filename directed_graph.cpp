@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <stdexcept>
 #include "graph_base.h"
 #include "directed_graph.h"
 
@@ -131,9 +132,8 @@ int Directed::has_cycle(){
     return 0;
 }
 int Directed::get_component(int v){
-    if(v > this->order()){
-        std::cout << "This vertex is not on the graph" << std::endl;
-        return -1;
+    if(v <= 0 or v > this->order()){
+        throw std::overflow_error("O vértice não está no grafo");
     }
     if(this->str_con_comp[v-1] != -1)
         return this->str_con_comp[v-1];
@@ -141,16 +141,14 @@ int Directed::get_component(int v){
     return this->str_con_comp[v-1];
 }
 int Directed::in_degree(int v){
-    if(v > this->order()){
-        std::cout << "This vertex is not on the graph" << std::endl;
-        return 0;
+    if(v <= 0 or v > this->order()){
+        throw std::overflow_error("O vértice não está no grafo");
     }
     return this->original[0][v];
 }
 int Directed::out_degree(int v){
-    if(v > this->order()){
-        std::cout << "This vertex is not on the graph" << std::endl;
-        return 0;
+    if(v <= 0 or v > this->order()){
+        throw std::overflow_error("O vértice não está no grafo");
     }
     return this->original[v][0];
 }
