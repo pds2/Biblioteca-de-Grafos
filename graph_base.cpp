@@ -5,9 +5,8 @@ const int INF = 0x3f3f3f3f;
 typedef std::pair<int, int> ii;
 
 Graph::Graph(int n){
-    if(n > 10000){
-        std::cout << "Not enough memory space" << std::endl;
-        return;
+    if(n <= 0 or n >= 1000){
+        throw std::overflow_error("Tamanho inválido para o grafo!");
     }
     this->vertices = n;
     this->has_negative_w = 0;
@@ -31,9 +30,10 @@ int **Graph::get_matrix(){
     return this->matrix;
 }
 void Graph::add_weighted_edge(int bg, int en, int w){
-    if(bg > this->vertices or en > this->vertices){
-        std::cout << "The edge you asked to add uses an vertex that is not on the graph" << std::endl;
-        return;
+    if(bg <= 0 or bg >= this->order()){
+        throw std::overflow_error("Posição inicial para a aresta inválida");
+    }if(en <= 0 or bg >= this->order()){
+        throw std::overflow_error("Posição final para a aresta inválida");
     }
     if(!this->matrix[bg][en]){
         this->matrix[0][0]++;
@@ -50,12 +50,18 @@ void Graph::add_edge(int bg, int en){
     this->add_weighted_edge(bg, en, 1);
 }
 int Graph::has_edge(int bg, int en){
+    if(bg <= 0 or bg >= this->order() or en <= 0 or en >= this->order())
+        return 0;
     return this->matrix[bg][en];
 }
 void Graph::remove_edge(int bg, int en){
-    if(bg > this->vertices or en > this->vertices or !this->matrix[bg][en]){
-        std::cout << "The edge you asked to remove is not on the graph" << std::endl;
-        return;
+    if(bg <= 0 or bg >= this->order()){
+        throw std::invalid_argument("Posição inicial para a aresta inválida");
+    }if(en <= 0 or bg >= this->order()){
+        throw std::invalid_argument("Posição final para a aresta inválida");
+    }
+    if(!this->matrix[bg][en]){
+        throw std::invalid_argument("A aresta não está no grafo");
     }
     if(this->matrix[bg][en] < 0)
         this->has_negative_w--;
@@ -65,9 +71,8 @@ void Graph::remove_edge(int bg, int en){
     this->matrix[0][en]--;
 }
 int Graph::check_degree(int v){
-    if(v > this->vertices){
-        std::cout << "This vertex is not on the graph" << std::endl;
-        return 0;
+    if(v <= 0 or v > this->order()){
+        throw std::overflow_error("O vértice não está no grafo");
     }
     return this->matrix[v][0];
 }
@@ -130,9 +135,12 @@ int Graph::bipartite(){
     return 1;
 }
 int Graph::dijkstra(int bg, int en){
-    if(bg > this->vertices or en > this->vertices){
-        std::cout << "One of these vertices is not on the graph" << std::endl;
-        return INF;
+    if(bg <= 0 or bg >= this->order()){
+        throw std::overflow_error("O vértice inicial para o caminhamento é inválido");
+    }if(en <= 0 or bg >= this->order()){
+        throw std::overflow_error("O vértice final para o caminhamento é inválido");
+    }if(this->has_negative_w){
+        throw std::logic_error("O grafo possui valores negativos, utilize o algorítmo *");
     }
     memset(this->distance, INF, sizeof(this->distance));
     this->distance[bg] = 0;
@@ -157,7 +165,7 @@ int Graph::dijkstra(int bg, int en){
     return this->distance[en];
 }
 int Graph::euler_graph(){
-    // VERIFICAR SE O GRAFO É CONEXO
+    // verificar se é conexo
     for(int i = 1; i <= this->vertices; i++){
         if(this->matrix[i][0]%2)
             return 0;
