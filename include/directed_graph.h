@@ -12,12 +12,6 @@ public:
   virtual Directed_IF *get_compressed_graph();
   virtual int bipartite();
   virtual int get_component(int v);
-  virtual int reflexive();
-  virtual int irreflexive();
-  virtual int symmetric();
-  virtual int antissymetric();
-  virtual int assymetric();
-  virtual int transitive();
   virtual int euler_graph();
   virtual int subgraph(Graph_IF &g);
 };
