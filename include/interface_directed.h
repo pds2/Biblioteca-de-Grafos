@@ -2,19 +2,24 @@
 #define INTERFACE_DIRECTED
 
 #include "interface_base.h"
+#include <stack>
+#include <vector>
 
 class Directed_IF : public Graph_IF{
+protected:
+  int *str_con_comp;
+  int **transverse;
+  int sccs;
 public:
   Directed_IF(int n);
-  ~Directed_IF();
-  virtual void add_edge(int bg, int en);
-  virtual void add_edge(int bg, int en, int w);
-  virtual void remove_edge(int bg, int en);
+  virtual ~Directed_IF();
+  virtual void add_edge(int bg, int en) =0;
+  virtual void add_edge(int bg, int en, int w) =0;
+  void remove_edge(int bg, int en);
   virtual int check_degree(int v);
-  virtual int has_cycle();
+  int has_cycle();
   virtual int *topological_order() = 0;
   virtual int connected() = 0;
-  virtual Directed_IF *get_compressed_graph() = 0;
   virtual int bipartite() = 0;
   virtual int get_component(int v) = 0;
   virtual int reflexive();
@@ -23,7 +28,6 @@ public:
   virtual int antissymetric();
   virtual int assymetric();
   virtual int transitive();
-  virtual int euler_graph() = 0;
-  virtual int subgraph(Graph_IF &g) = 0;
+  virtual int euler_graph();
 };
 #endif
