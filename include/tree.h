@@ -2,23 +2,16 @@
 #define TREE_H
 
 #include "interface_undirected.h"
+#include "edges.h"
 
 class Tree : public Undirected_IF{
+private:
+  void add_edge(int bg, int en);
+  void add_edge(int bg, int en, int w);
 public:
-  Tree(int n);
+  Tree(int n, Edges e);
   ~Tree();
-  virtual int connected();
-  virtual int has_cycle();
-  virtual int bipartite();
-  virtual int get_component(int v);
-  virtual int reflexive();
-  virtual int irreflexive();
-  virtual int symmetric();
-  virtual int antissymetric();
-  virtual int assymetric();
-  virtual int transitive();
-  virtual int euler_graph();
-  virtual int subgraph(Graph_IF &g);
+  int LCA(int a, int b);
 };
 
 #endif
