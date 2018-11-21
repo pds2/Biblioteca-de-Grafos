@@ -19,8 +19,7 @@ Graph_IF::Graph_IF(int n){
    this->is_irreflexive = -1;
    this->is_assymetric = -1;
    this->is_antissymetric = -1;
-   this->sccs = -1;
- }
+}
 
 Graph_IF::~Graph_IF(){
     while(this->vertices--){
@@ -80,4 +79,17 @@ int Graph_IF::out_degree(int v){
         throw std::overflow_error("O vértice não está no grafo");
     }
   return this->matrix[v][0];
+}
+
+int Graph_IF::subgraph(Graph_IF &g){
+    if(g.vertices > this->vertices)
+        return 0;
+
+    for(int i = 1; i <= g.vertices; i++){
+        for(int j = 1; j <= g.vertices; j++){
+            if(g.matrix[i][j] and !this->matrix[i][j])
+                return 0;
+        }
+    }
+    return 1;
 }
