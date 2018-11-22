@@ -1,37 +1,45 @@
-## Variables Declaration ##
-# Executable
-PROG_NAME = graph_library
+CC := g++-4.8
+SRCDIR := src
+TSTDIR := tests
+OBJDIR := build
+BINDIR := bin
 
-# Compiler and flags
-CC = g++
-CC_FLAGS = -std=c++11 -Wall -Wextra -g
+MAIN := program/main.cpp
+TESTER := program/tester.cpp
 
-# Commands
-RM = rm -rf
+SRCEXT := cpp
+SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
+OBJECTS := $(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
+TSTSOURCES := $(shell find $(TSTDIR) -type f -name *.$(SRCEXT))
 
-# Files
-GB = graph_base
-DG = directed_graph
-MAIN = main
-OUT_OBJS = $(GB).o $(DG).o $(MAIN).o
+# -g debug, --coverage para cobertura
+CFLAGS := --coverage -g -Wall -O3 -std=c++11
+INC := -I include/ -I third_party/
 
-## Makefile Functions Declaration ##
+$(OBJDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
-# This will be run when "make" or "make default" command is given
-default: $(PROG_NAME)
+main: $(OBJECTS)
+	@mkdir -p $(BINDIR)
+	$(CC) $(CFLAGS) $(INC) $(MAIN) $^ -o $(BINDIR)/main
 
-$(PROG_NAME): $(OUT_OBJS)
-	$(CC) -o $(PROG_NAME) $(OUT_OBJS)
+tests: $(OBJECTS)
+	@mkdir -p $(BINDIR)
+	$(CC) $(CFLAGS) $(INC) $(TESTER) $(TSTSOURCES) $^ -o $(BINDIR)/tester
+	$(BINDIR)/tester
 
-$(GB).o: $(GB).cpp $(GB).h
-	$(CC) $(CC_FLAGS) -c $(GB).cpp $(GB).h
+all: main
 
-$(DG).o: $(DG).cpp $(DG).h
-	$(CC) $(CC_FLAGS) -c $(DG).cpp $(DG).h
+run: main
+	$(BINDIR)/main
 
-$(MAIN).o: $(MAIN).cpp
-	$(CC) $(CC_FLAGS) -c $(MAIN).cpp
+coverage:
+	@mkdir -p coverage/
+	@gcov $(SOURCES) -rlpo build/
+	@$(RM) *.gcda *.gcno
 
-# This will be run when "make clean" command is given
 clean:
-	$(RM) *.o *.out *.exe $(PROG_NAME) *~
+	$(RM) -r $(OBJDIR)/* $(BINDIR)/* coverage/* *.gcda *.gcno
+
+.PHONY: clean coverage
