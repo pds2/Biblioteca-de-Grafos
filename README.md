@@ -3,7 +3,10 @@
 
 
 ## Authors/Autores:  
+[Caio - ](https://github.com/caiocaldeira3)   
+[Henrique - ](https://github.com/Henrique-Brito)   
 [Laura - 2013007544](https://github.com/laura-vianna)
+
 
 ## How to build and execute this project/como compilar e executar esse projeto:
 ### Dependencies/Dependências de projeto:
