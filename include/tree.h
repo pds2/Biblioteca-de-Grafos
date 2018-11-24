@@ -6,8 +6,8 @@
 
 class Tree : public Undirected_IF{
 private:
-  void add_edge(int bg, int en);
-  void add_edge(int bg, int en, int w);
+  void add_edge(int head_vertex, int tail_vertex);
+  void add_edge(int head_vertex, int tail_vertex, int weight);
 public:
   Tree(int n, Edges e);
   ~Tree();
