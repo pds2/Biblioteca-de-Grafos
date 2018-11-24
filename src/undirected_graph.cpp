@@ -30,3 +30,8 @@ void Undirected::add_edge(int bg, int en, int w){
   this->matrix[bg][en] = w;
   this->matrix[en][bg] = w;
 }
+
+//TODO
+// void Undirected::remove_edge(int bg, int en){
+//
+// }

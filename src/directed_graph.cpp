@@ -27,3 +27,23 @@ void Directed::add_edge(int bg, int en, int w){
   }
   this->matrix[bg][en] = w;
 }
+
+// TODO
+// int Directed::*topological_order(){
+//     return 0;
+// }
+// int Directed::connected(){
+//     return 0;
+// }
+// int Directed::has_cycle(){
+//     return 0;
+// }
+// DAG *get_compressed_graph(){
+//     return NULL;
+// }
+// int Directed::bipartite(){
+//     return 0;
+// }
+// int Directed::get_component(int v){
+//     return 0;
+// }

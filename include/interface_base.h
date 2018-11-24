@@ -21,22 +21,22 @@ protected:
   int is_transitive;
 public:
   Graph_IF(int n);
-  virtual ~Graph_IF();
+  virtual ~Graph_IF() = 0;
   int **get_matrix();
   int has_edge(int bg, int en);
-  virtual int check_degree(int v) = 0;
-  int in_degree(int v);
-  int out_degree(int v);
-  virtual int connected() = 0;
-  virtual int has_cycle() = 0;
   int order();
   int size();
   int complete();
   int regular();
-  virtual int bipartite() = 0;
-  virtual int get_component(int v) = 0;
-  virtual int euler_graph() = 0;
+  int in_degree(int v);
+  int out_degree(int v);
   int subgraph(Graph_IF &g);
+  // virtual int check_degree(int v) = 0;
+  // virtual int connected() = 0;
+  // virtual int has_cycle() = 0;
+  // virtual int bipartite() = 0;
+  // virtual int get_component(int v) = 0;
+  // virtual int euler_graph() = 0;
 };
 
 #endif

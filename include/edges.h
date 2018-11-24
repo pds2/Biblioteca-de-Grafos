@@ -1,6 +1,7 @@
 #ifndef EDGES_H
 #define EDGES_H
 
+#include "exceptions.h"
 #include <vector>
 
 class Edges {

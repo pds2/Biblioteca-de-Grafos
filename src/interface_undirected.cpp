@@ -13,3 +13,20 @@ int Undirected_IF::euler_graph(){
   }
   return 1;
 }
+//TODO
+int Undirected_IF::has_cycle(){
+    return 0;
+}
+
+// int Undirected_IF::check_degree(int v){
+//     return 0;
+// }
+// int Undirected_IF::connected(){
+//     return 0;
+// }
+// int Undirected_IF::bipartite(){
+//     return 0;
+// }
+// int Undirected_IF::get_component(int v){
+//     return 0;
+// }
