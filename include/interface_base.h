@@ -11,7 +11,7 @@ class Graph_IF {
         // This matrix has size V+1 * V+1, where V is the number of vertex
         // The line index 0, has the in-degree of each vertex
         // The column index 0, has the out-degree of each vertex
-        // The item [0, 0] has the number of vertex in the matrix
+        // The item [0, 0] has the number of edges in the matrix
         int **matrix;
         // Number of vertex in the graph
         int vertices;
