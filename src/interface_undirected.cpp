@@ -12,18 +12,20 @@ int Undirected_IF::bipartite() {
     int *visited = new int[this->vertices+1];
     int *colour = new int[this->vertices+1];
     for(int i = 1; i <= this->vertices; i++) {
-        visited[i] = 0;
-        colour[0] = 0;
+        visited[i] = FALSE;
+        colour[0] = FALSE;
     }
 
     // Initializes first vertex as visited and with the first colour
-    visited[1] = 1;
-    colour[1] = 1;
+    visited[1] = TRUE;
+    colour[1] = TRUE;
 
     if (bipartite_DFS(1, visited, colour)) {
-        return 1;
+        this->is_bipartite = TRUE;
+        return TRUE;
     }
-    return 0;
+    this->is_bipartite = FALSE;
+    return FALSE;
 }
 
 // In an undirected graph, the in_degree = out_degree
@@ -37,46 +39,48 @@ int Undirected_IF::connected() {
     int *visited = new int[this->vertices+1];
     int connected_num = 0;
     for(int i = 1; i <= this->vertices; i++)
-        visited[i] = 0;
+        visited[i] = FALSE;
 
     for(int v=1; v<=this->vertices; v++) {
-        if (visited[v] == 0)
+        if (visited[v] == FALSE)
             connected_DFS(v, visited, connected_num);
     }
 
     // If the total number of visited vertex is
     // the total of vertex in the graph, it is connected
-    if(connected_num == this->vertices)
-        return 1;
-
-    return 0;
+    if(connected_num == this->vertices) {
+        this->is_connected = TRUE;
+        return TRUE;
+    }
+    this->is_connected = FALSE;
+    return FALSE;
 }
 
 // Cycles through all vertex in graph, returns if an odd degree is found
 // (which means graph is not Eulerian)
 int Undirected_IF::euler_graph() {
   for (int i = 1; i <= this->vertices; i++) {
-      if (this->matrix[i][0]%2)
-          return 0;
-      if (this->matrix[0][i]%2)
-          return 0;
+      if (this->matrix[i][0]%2 || this->matrix[0][i]%2)
+          this->is_eulerian = FALSE;
+          return FALSE;
   }
-  return 1;
+  this->is_eulerian = TRUE;
+  return TRUE;
 }
 
 int Undirected_IF::has_cycle() {
     // Mark all the this->vertices as not visited
     int *visited = new int[this->vertices+1];
     for(int i = 1; i <= this->vertices; i++)
-        visited[i] = 0;
+        visited[i] = FALSE;
 
     for(int v=1; v<=this->vertices; v++) {
-        if (visited[v] == 0)
-            if (find_cycle_DFS(v, visited, -1) == 1)
-                return 1;
+        if (visited[v] == FALSE)
+            if (find_cycle_DFS(v, visited, UNDEFINED) == TRUE)
+                return TRUE;
     }
 
-    return 0;
+    return FALSE;
 }
 
 //TODO: implement
@@ -88,9 +92,9 @@ int Undirected_IF::get_component(int v) { return 0; }
 int Undirected_IF::bipartite_DFS(int curr, int *visited, int *colour) {
     for(int i = 1; i <= this->vertices; i++){
         if (Graph_IF::has_edge(curr, i)){
-            if(visited[curr] == 0){
+            if(visited[curr] == FALSE){
                 // Mark vertex as visited and colour as opposite to its parent
-                visited[i] = 1;
+                visited[i] = TRUE;
 
                 if(colour[curr] == 1){
                     colour[i] = 2;
@@ -99,28 +103,28 @@ int Undirected_IF::bipartite_DFS(int curr, int *visited, int *colour) {
                 }
 
                 // If  subtree rooted at vertex i is not bipartite, the graph is not
-                if (bipartite_DFS(i, visited, colour) == 0)
-                    return 0;
+                if (bipartite_DFS(i, visited, colour) == FALSE)
+                    return FALSE;
             }
             // if two adjacent are coloured with same colour, the graph is not bipartite
             else if (colour[curr] == colour[i])
-                return 0;
+                return FALSE;
         }
     }
-    return 1;
+    return TRUE;
 }
 
 // Auxiliary connected() method, it marks all adjacent vertex as visited and
 // increases the counter of connected vertex, in a Depth First Search
 void Undirected_IF::connected_DFS(int curr, int *visited, int &connected_num) {
     // Mark the current node as visited and increase counter
-    visited[curr] = 1;
+    visited[curr] = TRUE;
     connected_num++;
 
     // Iterate through all non-visited adjacent to this vertex
     for(int v=1; v<=this->vertices; v++) {
         if (curr != v && Graph_IF::has_edge(curr, v)) {
-            if(visited[v] == 0)
+            if(visited[v] == FALSE)
                 connected_DFS(v, visited, connected_num);
         }
     }
@@ -130,20 +134,20 @@ void Undirected_IF::connected_DFS(int curr, int *visited, int &connected_num) {
 // to verify if they were visited, in a Depth First Search
 int Undirected_IF::find_cycle_DFS(int curr, int *visited, int parent) {
     // Mark the current node as visited
-    visited[curr] = 1;
+    visited[curr] = TRUE;
 
     // Iterate through all adjacent to this vertex
     for(int v=1; v<=this->vertices; v++) {
         // If an adjacent is not visited, then try to find cycle for it
         if (Graph_IF::has_edge(curr, v)) {
-            if(visited[v] == 0)
+            if(visited[v] == FALSE)
                 if (find_cycle_DFS(v, visited, curr))
-                    return 1;
+                    return TRUE;
         }
 
         // If an adjacent is visited and not parent of current vertex, then there is a cycle.
         else if (v != parent)
-           return 1;
+           return TRUE;
     }
-    return 0;
+    return FALSE;
 }

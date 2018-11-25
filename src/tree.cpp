@@ -22,14 +22,14 @@ Tree::~Tree() { }
 
 // Inserts edge with weight 1 in the tree, connecting vertex head and tail
 void Tree::add_edge(int head_vertex, int tail_vertex){
-    add_edge(head_vertex, tail_vertex, 1);
+    add_edge(head_vertex, tail_vertex, DEFAULT_EDGE_WEIGHT);
 }
 
 // Inserts edge with desired weight in the graph, connecting vertex head and tail
 void Tree::add_edge(int head_vertex, int tail_vertex, int w){
-    if(head_vertex <= 0 or head_vertex >= this->order())
+    if(head_vertex < MIN_GRAPH_SIZE || head_vertex >= this->order())
         throw std::overflow_error("Posição inicial para a aresta inválida");
-    if(tail_vertex <= 0 or tail_vertex >= this->order())
+    if(tail_vertex < MIN_GRAPH_SIZE || tail_vertex >= this->order())
         throw std::overflow_error("Posição final para a aresta inválida");
 
     if(!this->matrix[head_vertex][tail_vertex]){

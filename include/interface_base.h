@@ -4,6 +4,7 @@
 #include <bits/stdc++.h>
 
 #include "edges.h"
+#include "constants.h"
 
 class Graph_IF {
 
@@ -17,6 +18,7 @@ class Graph_IF {
         int vertices;
         // Number of edges in the graph
         int edges;
+        // Count of how many edges with negative weight exist in a graph
         int has_negative_weight;
         // The distance between two vertices in a graph is
         // the number of edges in a shortest pathconnecting them
@@ -28,6 +30,8 @@ class Graph_IF {
         int is_assymetric;
         int is_antissymetric;
         int is_transitive;
+        int is_bipartite;
+        int is_eulerian;
 
     public:
         Graph_IF(int n);
@@ -49,6 +53,9 @@ class Graph_IF {
         // A graph is connected when there is a path between every pair of vertices.
         // In a connected graph, there are no unreachable vertices
         virtual int connected() = 0;
+
+        // A graph has a cycle when a vertex is reachable from itself,
+        // through a path of edges and vertices
         virtual int has_cycle() = 0;
 
         // A bipartite graph (or bigraph) is one whose vertices can be divided into
@@ -61,7 +68,6 @@ class Graph_IF {
         // Eulerian cycle is an Eulerian trail which starts and ends on the same vertex.
         // Eulerian graph has the prorpety that every vertex is of even degree
         virtual int euler_graph() = 0;
-
 };
 
 #endif

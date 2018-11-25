@@ -16,15 +16,15 @@ Undirected::~Undirected() { }
 
 // Inserts edge with weight 1 in the graph, connecting vertex head and tail
 void Undirected::add_edge(int head_vertex, int tail_vertex){
-    this->add_edge(head_vertex, tail_vertex, 1);
+    this->add_edge(head_vertex, tail_vertex, DEFAULT_EDGE_WEIGHT);
 }
 
 // Inserts edge with desired weight in the graph, connecting vertex head and tail
 void Undirected::add_edge(int head_vertex, int tail_vertex, int w){
     // Treats overflow cases for edge position
-    if(head_vertex <= 0 or head_vertex >= this->order())
+    if(head_vertex < MIN_GRAPH_SIZE || head_vertex >= this->order())
         throw std::overflow_error("Posição inicial para a aresta inválida");
-    if(tail_vertex <= 0 or tail_vertex >= this->order())
+    if(tail_vertex < MIN_GRAPH_SIZE || tail_vertex >= this->order())
         throw std::overflow_error("Posição final para a aresta inválida");
 
     if(!this->matrix[head_vertex][tail_vertex]) {
@@ -46,9 +46,9 @@ void Undirected::add_edge(int head_vertex, int tail_vertex, int w){
 // Removes edge that connects vertex head and tail
 void Undirected::remove_edge(int head_vertex, int tail_vertex){
     // Treats overflow cases for edge position
-    if(head_vertex <= 0 or head_vertex >= this->order())
+    if(head_vertex < MIN_GRAPH_SIZE || head_vertex >= this->order())
         throw std::overflow_error("Posição inicial para a aresta inválida");
-    if(tail_vertex <= 0 or tail_vertex >= this->order())
+    if(head_vertex < MIN_GRAPH_SIZE || tail_vertex >= this->order())
         throw std::overflow_error("Posição final para a aresta inválida");
 
     if (this->matrix[head_vertex][tail_vertex] != 0) {
