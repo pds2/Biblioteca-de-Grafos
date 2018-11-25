@@ -26,7 +26,7 @@ Graph_IF::~Graph_IF() {
         while(this->vertices--) {
                 delete [] this->matrix[this->vertices];
         }
-        this->edges = this->has_negative_weight = UNDEFINED;
+        this->edges = this->has_negative_weight = 0;
         delete [] this->distance;
         delete [] this->matrix;
 }
