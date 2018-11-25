@@ -3,22 +3,44 @@
 
 // Constructors
 // Creates a tree with n vertex and set of edges e
-//TODO - implement
-Tree::Tree(int n, Edges e) : Undirected_IF(n){
-    if( e.get_size() != n-1 ){
-        // throw
-    }
-    for( int i=0; i<e.get_size(); i++ )
-        add_edge(e[i].first, e[i].second.first, e[i].second.second);
+
+Tree::Tree(int n, int new_root, Edges e) : Undirected_IF(n){
+  parents = NULL;
+  if(new_root < MIN_GRAPH_SIZE || new_root >= this->order()){
+    throw std::overflow_error("Posição invalida para a raiz");
+  }
+  root = new_root;
+  if( e.get_size() != n-1 ){
+    throw std::invalid_argument("Numero de arestas invalido para a Arvore");
+  }
+  for( int i=0; i<e.get_size(); i++ )
+      add_edge(e[i].first, e[i].second.first, e[i].second.second);
 
 
-    if( has_cycle() ){
-        // throw
-    }
+  if( has_cycle() ){
+    throw std::invalid_argument("Arestas dadas geram ciclo");
+  }
+}
+
+int Tree::get_root(){
+  return root;
+}
+void Tree::set_root(int new_root){
+  if(new_root < MIN_GRAPH_SIZE || new_root >= this->order()){
+    throw std::overflow_error("Posição invalida para a raiz");
+  }
+  if( parents != NULL ){
+    delete[] parents;
+  }
+  root = new_root;
 }
 
 // Destructor
-Tree::~Tree() { }
+Tree::~Tree(){
+  if( parents != NULL ){
+    delete[] parents;
+  }
+}
 
 // Inserts edge with weight 1 in the tree, connecting vertex head and tail
 void Tree::add_edge(int head_vertex, int tail_vertex){
@@ -47,7 +69,51 @@ void Tree::add_edge(int head_vertex, int tail_vertex, int w){
     this->matrix[tail_vertex][head_vertex] = w;
 }
 
-//TODO - implement
+// Lowest Commom Ancestor
 int Tree::LCA(int a, int b){
-    return 0;
+
+    get_parent(1);
+
+    bool *visited = new bool[this->order()+1];
+    for( int i=0; i<=this->order(); i++ ){
+      visited[i] = false;
+    }
+
+    while( a!=root ){
+      visited[a] = true;
+      a = parents[a];
+    }
+
+    while( b!=root ){
+      if( visited[b] == true){
+        delete[] visited;
+        return b;
+      }
+      b = parents[b];
+    }
+
+    delete[] visited;
+    return root;
+}
+
+int Tree::get_parent(int v){
+  if(v < MIN_GRAPH_SIZE || v >= this->order()){
+      throw std::overflow_error("Aresta invalida");
+  }
+  if( parents != NULL ){
+    return parents[v];
+  }
+  parents = new int[this->order()+1];
+
+  dfs_parent(root, root);
+
+  return parents[v];
+}
+
+void Tree::dfs_parent(int current, int par){
+  parents[current] = par;
+  for( int i=1; i<=this->order(); i++ ){
+    if( !this->matrix[current][i] || i==par )continue;
+    dfs_parent(i, current);
+  }
 }
