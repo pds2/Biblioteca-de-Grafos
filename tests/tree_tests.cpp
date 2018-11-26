@@ -6,7 +6,10 @@ TEST_CASE("Arvore - Testes Basicos"){
   ed.insert(1, 2, 1);
   ed.insert(1, 3, 1);
   ed.insert(1, 4, 1);
-  CHECK_NOTHROW(Tree t(4, 1, ed));
+  Tree t(4, 1, ed);
+  CHECK(t.get_root() == 1);
+  t.set_root(2);
+  CHECK(t.get_root() == 2);
 }
 
 TEST_CASE("Arvore - Parent"){
@@ -58,4 +61,47 @@ TEST_CASE("Arvore - LCA"){
   CHECK(t.LCA(3, 6) == 3);
   CHECK(t.LCA(3, 7) == 3);
   CHECK(t.LCA(6, 7) == 3);
+}
+
+TEST_CASE("Arvore - Mudando a raiz"){
+  Edges ed;
+
+  ed.insert(1, 2);
+  ed.insert(1, 3);
+  ed.insert(1, 4);
+
+  ed.insert(2, 5);
+  ed.insert(2, 6);
+
+  ed.insert(4, 7);
+  ed.insert(7, 8);
+  ed.insert(8, 9);
+
+  CHECK_NOTHROW(Tree t(9, 1, ed));
+  Tree t(9, 1, ed);
+
+  CHECK(t.get_root() == 1);
+
+  CHECK(t.get_parent(1) == 1);
+  CHECK(t.get_parent(2) == 1);
+  CHECK(t.get_parent(3) == 1);
+  CHECK(t.get_parent(4) == 1);
+  CHECK(t.get_parent(5) == 2);
+  CHECK(t.get_parent(6) == 2);
+  CHECK(t.get_parent(7) == 4);
+  CHECK(t.get_parent(8) == 7);
+  CHECK(t.get_parent(9) == 8);
+
+  t.set_root(7);
+  CHECK(t.get_root() == 7);
+
+  CHECK(t.get_parent(1) == 4);
+  CHECK(t.get_parent(2) == 1);
+  CHECK(t.get_parent(3) == 1);
+  CHECK(t.get_parent(4) == 7);
+  CHECK(t.get_parent(5) == 2);
+  CHECK(t.get_parent(6) == 2);
+  CHECK(t.get_parent(7) == 7);
+  CHECK(t.get_parent(8) == 7);
+  CHECK(t.get_parent(9) == 8);
 }
