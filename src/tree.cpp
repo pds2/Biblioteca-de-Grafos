@@ -1,12 +1,13 @@
 #include "tree.h"
 #include "edges.h"
+#include <iostream>
 
 // Constructors
 // Creates a tree with n vertex and set of edges e
 
 Tree::Tree(int n, int new_root, Edges e) : Undirected_IF(n){
   parents = NULL;
-  if(new_root < MIN_GRAPH_SIZE || new_root >= this->order()){
+  if(new_root < MIN_GRAPH_SIZE || new_root > this->order()){
     throw std::overflow_error("Posição invalida para a raiz");
   }
   root = new_root;
@@ -16,9 +17,11 @@ Tree::Tree(int n, int new_root, Edges e) : Undirected_IF(n){
   for( int i=0; i<e.get_size(); i++ )
       add_edge(e[i].first, e[i].second.first, e[i].second.second);
 
-
   if( has_cycle() ){
     throw std::invalid_argument("Arestas dadas geram ciclo");
+  }
+  if( !connected() ){
+    throw std::invalid_argument("O grafo dado nao e conexo");
   }
 }
 
@@ -26,7 +29,7 @@ int Tree::get_root(){
   return root;
 }
 void Tree::set_root(int new_root){
-  if(new_root < MIN_GRAPH_SIZE || new_root >= this->order()){
+  if(new_root < MIN_GRAPH_SIZE || new_root > this->order()){
     throw std::overflow_error("Posição invalida para a raiz");
   }
   if( parents != NULL ){
@@ -49,9 +52,9 @@ void Tree::add_edge(int head_vertex, int tail_vertex){
 
 // Inserts edge with desired weight in the graph, connecting vertex head and tail
 void Tree::add_edge(int head_vertex, int tail_vertex, int w){
-    if(head_vertex < MIN_GRAPH_SIZE || head_vertex >= this->order())
+    if(head_vertex < MIN_GRAPH_SIZE || head_vertex > this->order())
         throw std::overflow_error("Posição inicial para a aresta inválida");
-    if(tail_vertex < MIN_GRAPH_SIZE || tail_vertex >= this->order())
+    if(tail_vertex < MIN_GRAPH_SIZE || tail_vertex > this->order())
         throw std::overflow_error("Posição final para a aresta inválida");
 
     if(!this->matrix[head_vertex][tail_vertex]){
@@ -97,7 +100,7 @@ int Tree::LCA(int a, int b){
 }
 
 int Tree::get_parent(int v){
-  if(v < MIN_GRAPH_SIZE || v >= this->order()){
+  if(v < MIN_GRAPH_SIZE || v > this->order()){
       throw std::overflow_error("Aresta invalida");
   }
   if( parents != NULL ){
