@@ -2,6 +2,11 @@
 #include "edges.h"
 #include "doctest.h"
 
+  TEST_CASE("Id de um grafo sem arestas"){
+   Undirected u(10);
+   CHECK(u.get_id(5) == 5);
+  }
+
 TEST_CASE("Interface Base - Testes Basiscos"){
   Edges ed;
 

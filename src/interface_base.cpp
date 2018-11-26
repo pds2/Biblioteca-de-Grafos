@@ -5,13 +5,15 @@ Graph_IF::Graph_IF(int n) {
                 throw std::overflow_error("Tamanho inválido para o grafo!");
         }
         this->vertices = n;
+        this->id = new int[n+1];
         this->has_negative_weight = 0;
         this->distance = new int[n];
         this->matrix = new int*[n+1];
         for(int i = 0; i <= n; i++) {
+                this->id[i] = i;
                 this->matrix[i] = new int[n+1];
                 for( int j=0; j<=n; j++ ){
-                  matrix[i][j] = 0;
+                        matrix[i][j] = 0;
                 }
         }
         this->is_connected = UNDEFINED;
@@ -30,6 +32,10 @@ Graph_IF::~Graph_IF() {
 
 int **Graph_IF::get_matrix() {
         return this->matrix;
+}
+
+int Graph_IF::get_id(int vertix) {
+        return this->id[vertix];
 }
 
 int Graph_IF::has_edge(int bg, int en) {
