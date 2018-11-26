@@ -7,6 +7,8 @@ Directed::Directed(int n, Edges e) : Directed_IF(n){
   }
 }
 
+Directed::~Directed(){}
+
 void Directed::add_edge(int bg, int en){
   add_edge(bg, en, 1);
 }
@@ -26,4 +28,17 @@ void Directed::add_edge(int bg, int en, int w){
         this->has_negative_weight++;
   }
   this->matrix[bg][en] = w;
+}
+
+int *Directed::topological_order(){
+  return NULL;
+}
+int Directed::connected(){
+  return 0;
+}
+int Directed::bipartite(){
+  return 0;
+}
+int Directed::get_component(int v){
+  return 0;
 }
