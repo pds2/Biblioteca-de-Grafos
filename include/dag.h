@@ -10,10 +10,8 @@ public:
   ~DAG();
   virtual void add_edge(int bg, int en);
   virtual void add_edge(int bg, int en, int w);
-  virtual int *topological_order();
-  virtual int connected();
-  virtual Directed_IF *get_compressed_graph();
-  virtual int bipartite();
+  virtual int find_distance(int u, int v) override;
+  virtual int *find_distance(int v) override;
 };
 
 #endif

@@ -43,18 +43,23 @@ int Graph_IF::size() {
         return this->matrix[0][0];
 }
 int Graph_IF::find_distance(int bg, int en){
-    if(this->has_negative_weight){
-        throw std::invalid_argument("Não é possível realizar o dijkstra em Grafos com arestas de valores negativos");
-    }
-    return dijkstra(bg, en);
+    find_distance(bg);
+    return distance[en];
 }
-int Graph_IF::dijkstra(int bg, int en){
-  if(bg <= 0 or bg >= this->order()){
-    throw std::overflow_error("Posição inicial para o caminhamento inválida");
-  }if(en <= 0 or en >= this->order()){
-    throw std::overflow_error("Posição final para o caminhamento inválida");
+int *Graph_IF::find_distance(int u){
+  if(this->has_negative_weight){
+      throw std::invalid_argument("Não é possível realizar o dijkstra em Grafos com arestas de valores negativos");
   }
-  memset(this->distance, INF, sizeof(this->distance));
+  dijkstra(u);
+  return distance;
+}
+int *Graph_IF::dijkstra(int bg){
+  if(bg <= 0 or bg > this->order()){
+    throw std::overflow_error("Posição inicial para o caminhamento inválida");
+  }
+  for( int i=0; i<=this->order(); i++ ){
+    distance[i] = 0;
+  }
   this->distance[bg] = 0;
   std::priority_queue<std::pair<int,int> > q;
   q.push(std::make_pair(0, bg));
@@ -74,7 +79,7 @@ int Graph_IF::dijkstra(int bg, int en){
           }
       }
   }
-  return this->distance[en];
+  return this->distance;
 }
 int Graph_IF::complete() {
         for(int i = 1; i <= this->vertices; i++) {
