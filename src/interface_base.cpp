@@ -8,9 +8,11 @@ Graph_IF::Graph_IF(int n) {
         this->has_negative_weight = 0;
         this->distance = new int[n];
         this->matrix = new int*[n+1];
-        for(int i = 0; i < n; i++) {
+        for(int i = 0; i <= n; i++) {
                 this->matrix[i] = new int[n+1];
-                memset(this->matrix[i], 0, sizeof(sizeof(int)*(n+1)));
+                for( int j=0; j<=n; j++ ){
+                  matrix[i][j] = 0;
+                }
         }
         this->is_connected = UNDEFINED;
         this->is_reflexive = UNDEFINED;
@@ -36,8 +38,8 @@ int **Graph_IF::get_matrix() {
 }
 
 int Graph_IF::has_edge(int bg, int en) {
-        if(bg <= 0 or bg >= this->order() or en <= 0 or en >= this->order()) {
-                return 0;
+        if(bg <= 0 or bg > this->order() or en <= 0 or en > this->order()) {
+          throw std::overflow_error("Aresta invalida");
         }
         return this->matrix[bg][en];
 }

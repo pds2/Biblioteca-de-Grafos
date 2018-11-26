@@ -71,13 +71,16 @@ int Undirected_IF::euler_graph() {
 int Undirected_IF::has_cycle() {
     // Mark all the this->vertices as not visited
     int *visited = new int[this->vertices+1];
-    for(int i = 1; i <= this->vertices; i++)
+    for(int i = 1; i <= this->vertices; i++){
         visited[i] = FALSE;
+    }
 
     for(int v=1; v<=this->vertices; v++) {
-        if (visited[v] == FALSE)
-            if (find_cycle_DFS(v, visited, UNDEFINED) == TRUE)
+        if (visited[v] == FALSE){
+            if (find_cycle_DFS(v, visited, UNDEFINED) == TRUE){
                 return TRUE;
+            }
+        }
     }
 
     return FALSE;
@@ -140,14 +143,16 @@ int Undirected_IF::find_cycle_DFS(int curr, int *visited, int parent) {
     for(int v=1; v<=this->vertices; v++) {
         // If an adjacent is not visited, then try to find cycle for it
         if (Graph_IF::has_edge(curr, v)) {
-            if(visited[v] == FALSE)
-                if (find_cycle_DFS(v, visited, curr))
+            if(visited[v] == FALSE){
+                if (find_cycle_DFS(v, visited, curr)){
                     return TRUE;
+                }
+            }else if(visited[v] == TRUE && v != parent){
+              // If an adjacent is visited and not parent of current vertex, then there is a cycle.
+               return TRUE;
+            }
         }
 
-        // If an adjacent is visited and not parent of current vertex, then there is a cycle.
-        else if (v != parent)
-           return TRUE;
     }
     return FALSE;
 }

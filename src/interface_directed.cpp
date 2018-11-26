@@ -113,3 +113,7 @@ int Directed_IF::euler_graph(){
   }
   return 1;
 }
+
+int Directed_IF::has_cycle(){
+  return 0;
+}
