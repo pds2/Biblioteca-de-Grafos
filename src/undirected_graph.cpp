@@ -63,6 +63,8 @@ void Undirected::remove_edge(int head_vertex, int tail_vertex){
     }
 }
 int Undirected::find(int vertex){
+    if (vertex < 0 || vertex > this->vertices)
+        throw std::overflow_error("Vértice não existente no grafo");
     //The find function finds the Id of a specific vertex, we use it on union
     if(this->id[vertex]) return get_id(vertex);
     return id[vertex] = find(id[vertex]);
@@ -80,4 +82,31 @@ void Undirected::_union(int vertex_1, int vertex_2){
     }
     if(vertex_1 != vertex_2)
         id[vertex_1] = vertex_2;
+}
+
+Undirected Undirected::kruskal(){
+    //The kruskal algorithm is used to find one minimal sub-tree from a graph
+    std::pair <int, int> vertices;
+    Undirected arvore_minima(this->vertices);
+    std::map <int, std::pair<int, int>> mapa;
+    std::map <int, std::pair<int, int>>::iterator it;
+    int aresta;
+    for (int i = 0; i < this->vertices; i++){
+        for (int j = 1; (j + i) < this->vertices; j++){
+            aresta = this->matrix[i][j];
+            vertices.first = i;
+            vertices.second = j;
+            if (aresta != 0){
+                mapa[aresta] = vertices; 
+            }
+        }
+    }
+    it = mapa.begin();
+    while(it != mapa.end()){
+        if (arvore_minima.find((it->second).first) != arvore_minima.find((it->second).second)){
+            arvore_minima.add_edge((it->second).first, (it->second).second, it->first);
+            it++;
+        }
+    }
+     return arvore_minima;
 }

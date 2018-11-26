@@ -13,6 +13,7 @@ class Undirected : public Undirected_IF{
         void remove_edge(int edge_head, int edge_tail);
         void _union(int vertex_1, int vertex_2);
         int find(int vertex);
+        Undirected kruskal();
 };
 
 #endif
