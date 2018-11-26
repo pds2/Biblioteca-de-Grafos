@@ -1,6 +1,6 @@
 #include "tree.h"
 #include "edges.h"
-#include <iostream>
+#include <queue>
 
 // Constructors
 // Creates a tree with n vertex and set of edges e
@@ -119,5 +119,55 @@ void Tree::dfs_parent(int current, int par){
   for( int i=1; i<=this->order(); i++ ){
     if( !this->matrix[current][i] || i==par )continue;
     dfs_parent(i, current);
+  }
+}
+
+int Tree::num_level(){
+  std::queue<std::pair<int,int> >q;
+  const int end_level = -1;
+  int par, u, levels=0;
+
+  q.push(std::make_pair(root, root));
+  q.push(std::make_pair(end_level, end_level));
+
+  while( q.size() ){
+    u = q.front().first;
+    par = q.front().second;
+    q.pop();
+    if( u == end_level ){
+      levels++;
+      if( q.size() ){
+        q.push(std::make_pair(end_level, end_level));
+      }
+      continue;
+    }
+    for( int i=1; i<=this->order(); i++ ){
+      if( has_edge(u, i) && i != par ){
+        q.push(std::make_pair(i, u));
+      }
+    }
+  }
+  return levels;
+}
+
+int Tree::vertex_distance(int u, int v){
+  vertex_distance(u);
+  return distance[v];
+}
+int *Tree::vertex_distance(int v){
+  for( int i=1; i<=this->order(); i++ ){
+    distance[i] = -1;
+  }
+  distance[v] = 0;
+  dfs_distance(v, v);
+  return distance;
+}
+
+void Tree::dfs_distance(int current, int par){
+  for( int i=1; i<=this->order(); i++ ){
+    if( has_edge(current, i) && i!=par ){
+      distance[i] = distance[current] +1;
+      dfs_distance(i, current);
+    }
   }
 }
