@@ -34,6 +34,7 @@ void Tree::set_root(int new_root){
   }
   if( parents != NULL ){
     delete[] parents;
+    parents = NULL;
   }
   root = new_root;
 }
