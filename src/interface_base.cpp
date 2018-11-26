@@ -34,8 +34,8 @@ int **Graph_IF::get_matrix() {
         return this->matrix;
 }
 
-int Graph_IF::get_id(int vertix) {
-        return this->id[vertix];
+int Graph_IF::get_id(int vertex) {
+        return this->id[vertex];
 }
 
 int Graph_IF::has_edge(int bg, int en) {

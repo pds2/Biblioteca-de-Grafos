@@ -41,6 +41,7 @@ void Undirected::add_edge(int head_vertex, int tail_vertex, int w){
     }
     this->matrix[head_vertex][tail_vertex] = w;
     this->matrix[tail_vertex][head_vertex] = w;
+    _union(tail_vertex, head_vertex);
 }
 
 // Removes edge that connects vertex head and tail
@@ -60,4 +61,23 @@ void Undirected::remove_edge(int head_vertex, int tail_vertex){
         this->matrix[head_vertex][tail_vertex] = 0;
         this->matrix[tail_vertex][head_vertex] = 0;
     }
+}
+int Undirected::find(int vertex){
+    //The find function finds the Id of a specific vertex, we use it on union
+    if(this->id[vertex]) return get_id(vertex);
+    return id[vertex] = find(id[vertex]);
+}
+
+void Undirected::_union(int vertex_1, int vertex_2){
+    //The union funciontion is used to match the Id of two different vertices
+    vertex_1 = find(vertex_1);
+    vertex_2 = find(vertex_2);
+    int aux;
+    if(vertex_1 < vertex_2){
+        aux = vertex_1;
+        vertex_1 = vertex_2;
+        vertex_2 = aux;
+    }
+    if(vertex_1 != vertex_2)
+        id[vertex_1] = vertex_2;
 }

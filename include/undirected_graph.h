@@ -11,6 +11,8 @@ class Undirected : public Undirected_IF{
         void add_edge(int edge_head, int edge_tail);
         void add_edge(int edge_head, int edge_tail, int weight);
         void remove_edge(int edge_head, int edge_tail);
+        void _union(int vertex_1, int vertex_2);
+        int find(int vertex);
 };
 
 #endif
