@@ -1,5 +1,6 @@
 #include "edges.h"
 #include <stdexcept>
+#include <algorithm>
 
 int Edges::get_size(){
   return (int)v.size();
@@ -21,4 +22,8 @@ void Edges::insert(int begin, int end, int weight){
 
 void Edges::insert(int begin, int end){
   insert(begin, end, 1);
+}
+
+void Edges::sort(){
+  std::sort(v.begin(), v.end());
 }
