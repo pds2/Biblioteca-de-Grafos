@@ -1,13 +1,8 @@
 #include "interface_directed.h"
 
 Directed_IF::Directed_IF(int n) : Graph_IF(n){
-  str_con_comp = new int[n];
+  str_con_comp = new int[n+1];
   transverse = new int*[n+1];
-  this->is_reflexive = UNDEFINED;
-  this->is_symmetric = UNDEFINED;
-  this->is_transitive = UNDEFINED;
-  this->is_irreflexive = UNDEFINED;
-  this->is_assymetric = UNDEFINED;
   this->sccs = UNDEFINED;
   for( int i=0; i<n; i++ ){
     transverse[i] = new int[n+1];
@@ -37,7 +32,13 @@ void Directed_IF::remove_edge(int bg, int en){
   this->matrix[bg][0]--;
   this->matrix[0][en]--;
 }
-int Directed_IF::check_degree(int v){
+int Directed_IF::check_degree_in(int v){
+  if(v <= 0 or v > this->order()){
+      throw std::overflow_error("O vértice não está no grafo");
+  }
+  return this->matrix[0][v];
+}
+int Directed_IF::check_degree_out(int v){
   if(v <= 0 or v > this->order()){
       throw std::overflow_error("O vértice não está no grafo");
   }
@@ -45,80 +46,52 @@ int Directed_IF::check_degree(int v){
 }
 
 int Directed_IF::reflexive(){
-  if(this->is_reflexive != -1)
-       return this->is_reflexive;
-
    for(int i = 1; i <= this->order(); i++){
        if(!this->matrix[i][i])
-           return this->is_reflexive = 0;
+           return 0;
    }
-   return this->is_reflexive = 1;
+   return 1;
 }
 int Directed_IF::irreflexive(){
-  if(this->is_irreflexive != -1)
-        return this->is_irreflexive;
-
     for(int i = 1; i <= this->order(); i++){
         if(this->matrix[i][i])
-            return this->is_irreflexive = 0;
+            return 0;
     }
-  return this->is_irreflexive = 1;
+  return 1;
 }
 int Directed_IF::symmetric(){
-  if(this->is_symmetric != -1)
-        return this->is_symmetric;
-
     for(int i = 1; i <= this->order(); i++){
         for(int j = 1; j <= i; j++){
             if(this->matrix[i][j] and !this->matrix[j][i])
-                return this->is_symmetric = 0;
+                return 0;
             if(this->matrix[j][i] and !this->matrix[i][j])
-                return this->is_symmetric = 0;
+                return 0;
         }
     }
-  return this->is_symmetric = 1;
+  return 1;
 }
 int Directed_IF::antissymetric(){
-  if(this->is_antissymetric != -1)
-        return this->is_antissymetric;
-
     for(int i = 1; i <= this->order(); i++){
         for(int j = 1; j < i; i++){
             if(this->matrix[i][j] and this->matrix[j][i])
-                return this->is_antissymetric = 0;
+                return 0;
         }
     }
-  return this->is_antissymetric = 1;
+  return 1;
 }
 int Directed_IF::assymetric(){
   return (this->antissymetric() and this->irreflexive());
 }
 int Directed_IF::transitive(){
-  if(this->is_transitive != -1)
-       return this->is_transitive;
-
    for(int i = 1; i <= this->order(); i++){
        for(int j = 1; j <= this->order(); j++){
            if(this->matrix[i][j]){
                for(int k = 1; k <= this->order(); k++){
                    if(this->matrix[j][k] and !this->matrix[i][k])
-                       return this->is_transitive = 0;
+                       return 0;
                }
            }
        }
    }
-  return this->is_transitive = 1;
-}
-
-int Directed_IF::euler_graph(){
-  for(int i = 1; i <= this->vertices; i++){
-    if(this->matrix[i][0] != this->matrix[0][i]) return 0;
-    if(this->matrix[i][0]%2) return 0;
-    if(this->matrix[0][i]%2) return 0;
-  }
   return 1;
-}
-
-int Directed_IF::has_cycle(){
-  return 0;
 }

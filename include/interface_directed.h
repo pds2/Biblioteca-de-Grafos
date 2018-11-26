@@ -7,12 +7,6 @@
 
 class Directed_IF : public Graph_IF{
 protected:
-  int is_reflexive;
-  int is_irreflexive;
-  int is_symmetric;
-  int is_assymetric;
-  int is_antissymetric;
-  int is_transitive;
   int *str_con_comp;
   int **transverse;
   int sccs;
@@ -22,11 +16,11 @@ public:
   virtual void add_edge(int bg, int en) =0;
   virtual void add_edge(int bg, int en, int w) =0;
   void remove_edge(int bg, int en);
-  virtual int check_degree(int v);
-  int has_cycle();
+  int check_degree_in(int v);
+  int check_degree_out(int v);
+  int has_cycle() = 0;
   virtual int *topological_order() = 0;
   virtual int connected() = 0;
-  virtual int bipartite() = 0;
   virtual int get_component(int v) = 0;
   virtual int reflexive();
   virtual int irreflexive();
@@ -34,6 +28,5 @@ public:
   virtual int antissymetric();
   virtual int assymetric();
   virtual int transitive();
-  virtual int euler_graph();
 };
 #endif
