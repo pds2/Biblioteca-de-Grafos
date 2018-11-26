@@ -1,4 +1,4 @@
-CC := g++-4.8
+CC := g++
 SRCDIR := src
 TSTDIR := tests
 OBJDIR := build
