@@ -10,6 +10,11 @@ protected:
   int *str_con_comp;
   int **transverse;
   int sccs;
+  int *visited;
+  void kosaraju();
+  void DFS_KOSARAJU(int u, std::stack<int> &pilha);
+  void SCC_KOSARAJU(int v, int cmp);
+  void topological_order(int u, int visited[], std::stack<int> &s);
 public:
   Directed_IF(int n);
   virtual ~Directed_IF();
@@ -18,15 +23,15 @@ public:
   void remove_edge(int bg, int en);
   int check_degree_in(int v);
   int check_degree_out(int v);
-  int has_cycle() = 0;
-  virtual int *topological_order() = 0;
-  virtual int connected() = 0;
-  virtual int get_component(int v) = 0;
-  virtual int reflexive();
-  virtual int irreflexive();
-  virtual int symmetric();
-  virtual int antissymetric();
-  virtual int assymetric();
-  virtual int transitive();
+  int has_cycle();
+  int *topological_order();
+  int connected();
+  int get_component(int v);
+  int reflexive();
+  int irreflexive();
+  int symmetric();
+  int antissymetric();
+  int assymetric();
+  int transitive();
 };
 #endif

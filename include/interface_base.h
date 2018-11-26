@@ -26,11 +26,12 @@ class Graph_IF {
         int is_connected;
         int is_bipartite;
         int is_eulerian;
-        int dijkstra(int bg, int en);
+        int *dijkstra(int bg);
     public:
         Graph_IF(int n);
         virtual ~Graph_IF();
         virtual int find_distance(int bg, int en);
+        virtual int *find_distance(int u);
         int **get_matrix();
         int has_edge(int bg, int en);
         int order();

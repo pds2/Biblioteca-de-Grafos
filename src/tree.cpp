@@ -150,11 +150,11 @@ int Tree::num_level(){
   return levels;
 }
 
-int Tree::vertex_distance(int u, int v){
-  vertex_distance(u);
+int Tree::find_distance(int u, int v){
+  find_distance(u);
   return distance[v];
 }
-int *Tree::vertex_distance(int v){
+int *Tree::find_distance(int v){
   for( int i=1; i<=this->order(); i++ ){
     distance[i] = -1;
   }
