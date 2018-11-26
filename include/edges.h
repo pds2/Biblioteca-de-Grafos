@@ -10,6 +10,7 @@ public:
   int get_size();
   const std::pair<int,std::pair<int,int> >& operator [](int idx);
   void insert(int begin, int end, int weight);
+  void insert(int begin, int end);
 };
 
 #endif

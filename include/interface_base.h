@@ -24,12 +24,6 @@ class Graph_IF {
         // the number of edges in a shortest pathconnecting them
         int *distance;
         int is_connected;
-        int is_reflexive;
-        int is_irreflexive;
-        int is_symmetric;
-        int is_assymetric;
-        int is_antissymetric;
-        int is_transitive;
         int is_bipartite;
         int is_eulerian;
 

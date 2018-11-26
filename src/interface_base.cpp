@@ -15,11 +15,6 @@ Graph_IF::Graph_IF(int n) {
                 }
         }
         this->is_connected = UNDEFINED;
-        this->is_reflexive = UNDEFINED;
-        this->is_symmetric = UNDEFINED;
-        this->is_transitive = UNDEFINED;
-        this->is_irreflexive = UNDEFINED;
-        this->is_assymetric = UNDEFINED;
         this->is_bipartite = UNDEFINED;
         this->is_eulerian = UNDEFINED;
 }

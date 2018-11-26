@@ -7,6 +7,12 @@
 
 class Directed_IF : public Graph_IF{
 protected:
+  int is_reflexive;
+  int is_irreflexive;
+  int is_symmetric;
+  int is_assymetric;
+  int is_antissymetric;
+  int is_transitive;
   int *str_con_comp;
   int **transverse;
   int sccs;

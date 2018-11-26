@@ -3,10 +3,15 @@
 Directed_IF::Directed_IF(int n) : Graph_IF(n){
   str_con_comp = new int[n];
   transverse = new int*[n+1];
+  this->is_reflexive = UNDEFINED;
+  this->is_symmetric = UNDEFINED;
+  this->is_transitive = UNDEFINED;
+  this->is_irreflexive = UNDEFINED;
+  this->is_assymetric = UNDEFINED;
+  this->sccs = UNDEFINED;
   for( int i=0; i<n; i++ ){
     transverse[i] = new int[n+1];
   }
-  sccs = -1;
 }
 Directed_IF::~Directed_IF(){
   delete[] str_con_comp;
