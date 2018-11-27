@@ -98,3 +98,15 @@ TEST_CASE("Interface Base - Distancias - 2"){
   CHECK(u.find_distance(1, 5) == 2);
   CHECK(u.find_distance(1, 4) == 3);
 }
+
+TEST_CASE("Interface Base - Excecoes"){
+  CHECK_THROWS(Undirected(10000));
+  CHECK_THROWS(Undirected(-1));
+
+  Undirected u(3);
+
+  CHECK_THROWS(u.has_edge(-1, 1));
+  CHECK_THROWS(u.has_edge(100000, 1));
+
+  CHECK_THROWS(u.find_distance(-1));
+}
