@@ -61,3 +61,33 @@ TEST_CASE("TESTE - Remover aresta"){
   CHECK(ug.has_edge(4, 2) == 0);
   CHECK(ug.has_edge(2, 4) == 0);
 }
+
+TEST_CASE("Undirected - Kruskal"){
+  Edges ed;
+  ed.insert(1, 2, 1);
+  ed.insert(3, 1, 1);
+  ed.insert(1, 4, 1);
+  ed.insert(5, 1, 1);
+
+  ed.insert(2, 3, 100);
+  ed.insert(2, 4, 100);
+  ed.insert(2, 5, 100);
+
+  ed.insert(3, 4, 100);
+  ed.insert(3, 5, 100);
+
+  ed.insert(4, 5, 100);
+
+  Undirected u(5, ed);
+
+  Tree *t = u.kruskal();
+  t->set_root(1);
+
+  CHECK(t->get_parent(2) == 1);
+  CHECK(t->get_parent(3) == 1);
+  CHECK(t->get_parent(4) == 1);
+  CHECK(t->get_parent(5) == 1);
+
+  CHECK(t->num_level() == 2);
+
+}
