@@ -95,11 +95,3 @@ TEST_CASE("Adicionando edge com vertices invalidos"){
 		CHECK_THROWS(u.find(15));
 		CHECK_THROWS(u.find(-5));
 	}
-
-TEST_CASE("Kruskal"){
-	Undirected u(3);
-	u.add_edge(1, 2, 3);
-	u.add_edge(1, 3, 2);
-	u.add_edge(2, 3, 1);
-	// u.kruskal();
-}
