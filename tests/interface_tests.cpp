@@ -33,10 +33,6 @@ TEST_CASE("Interface Base - Testes Basiscos"){
 
   CHECK(u.complete());
   CHECK(u.regular());
-
-  CHECK(u.in_degree(2) == 4);
-  CHECK(u.out_degree(3) == 4);
-
 }
 
 TEST_CASE("Interface Base - Subgrafo"){

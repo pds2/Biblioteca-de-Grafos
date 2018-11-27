@@ -7,33 +7,31 @@
 
 class Directed_IF : public Graph_IF{
 protected:
-  int is_reflexive;
-  int is_irreflexive;
-  int is_symmetric;
-  int is_assymetric;
-  int is_antissymetric;
-  int is_transitive;
   int *str_con_comp;
   int **transverse;
   int sccs;
+  int *visited;
+  void kosaraju();
+  void DFS_KOSARAJU(int u, std::stack<int> &pilha);
+  void SCC_KOSARAJU(int v, int cmp);
+  void topological_order(int u, int visited[], std::stack<int> &s);
 public:
   Directed_IF(int n);
   virtual ~Directed_IF();
   virtual void add_edge(int bg, int en) =0;
   virtual void add_edge(int bg, int en, int w) =0;
   void remove_edge(int bg, int en);
-  virtual int check_degree(int v);
+  int check_degree_in(int v);
+  int check_degree_out(int v);
   int has_cycle();
-  virtual int *topological_order() = 0;
-  virtual int connected() = 0;
-  virtual int bipartite() = 0;
-  virtual int get_component(int v) = 0;
-  virtual int reflexive();
-  virtual int irreflexive();
-  virtual int symmetric();
-  virtual int antissymetric();
-  virtual int assymetric();
-  virtual int transitive();
-  virtual int euler_graph();
+  int *topological_order();
+  int connected();
+  int get_component(int v);
+  int reflexive();
+  int irreflexive();
+  int symmetric();
+  int antissymetric();
+  int assymetric();
+  int transitive();
 };
 #endif

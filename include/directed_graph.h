@@ -11,11 +11,7 @@ public:
   ~Directed();
   virtual void add_edge(int bg, int en);
   virtual void add_edge(int bg, int en, int w);
-  virtual int *topological_order();
-  virtual int connected();
   DAG *get_compressed_graph();
-  virtual int bipartite();
-  virtual int get_component(int v);
 };
 
 #endif

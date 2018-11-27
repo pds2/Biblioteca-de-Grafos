@@ -29,10 +29,12 @@ class Graph_IF {
         int is_connected;
         int is_bipartite;
         int is_eulerian;
-
+        int *dijkstra(int bg);
     public:
         Graph_IF(int n);
         virtual ~Graph_IF();
+        virtual int find_distance(int bg, int en);
+        virtual int *find_distance(int u);
         int **get_matrix();
         int get_id(int vertix);
         int has_edge(int bg, int en);
@@ -41,13 +43,6 @@ class Graph_IF {
         int complete();
         int regular();
         int subgraph(Graph_IF &g);
-
-        // The in_degree of a vertex v is the number of head ends of edges from it
-        int in_degree(int v);
-
-        // The out_degree of a vertex v is the number of tail ends of edges arriving at it
-        int out_degree(int v);
-
         // A graph is connected when there is a path between every pair of vertices.
         // In a connected graph, there are no unreachable vertices
         virtual int connected() = 0;
@@ -55,17 +50,7 @@ class Graph_IF {
         // A graph has a cycle when a vertex is reachable from itself,
         // through a path of edges and vertices
         virtual int has_cycle() = 0;
-
-        // A bipartite graph (or bigraph) is one whose vertices can be divided into
-        // two disjoint and independent sets U and V such that
-        // every edge connects a vertex in U to one in V
-        virtual int bipartite() = 0;
         virtual int get_component(int v) = 0;
-
-        // Eulerian trail/path is a trail which visits every edge exactly once.
-        // Eulerian cycle is an Eulerian trail which starts and ends on the same vertex.
-        // Eulerian graph has the prorpety that every vertex is of even degree
-        virtual int euler_graph() = 0;
 };
 
 #endif

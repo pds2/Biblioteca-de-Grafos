@@ -28,11 +28,6 @@ int Undirected_IF::bipartite() {
     return FALSE;
 }
 
-// In an undirected graph, the in_degree = out_degree
-int Undirected_IF::check_degree(int v) {
-    return in_degree(v);
-}
-
 // From the first vertex in the matrix, will verify if all the vertex are connected
 int Undirected_IF::connected() {
     // Mark all the this->vertices as not visited
@@ -60,9 +55,10 @@ int Undirected_IF::connected() {
 // (which means graph is not Eulerian)
 int Undirected_IF::euler_graph() {
   for (int i = 1; i <= this->vertices; i++) {
-      if (this->matrix[i][0]%2 || this->matrix[0][i]%2)
+      if (this->matrix[i][0]%2 || this->matrix[0][i]%2){
           this->is_eulerian = FALSE;
           return FALSE;
+      }
   }
   this->is_eulerian = TRUE;
   return TRUE;
