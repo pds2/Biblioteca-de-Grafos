@@ -1,24 +1,24 @@
         -:    0:Source:src/interface_directed.cpp
-        -:    0:Programs:99
+        -:    0:Programs:8
         -:    1:#include "interface_directed.h"
         -:    2:
-    16016:    3:Directed_IF::Directed_IF(int n) : Graph_IF(n){
-    16016:    4:  str_con_comp = new int[n+1];
-    16016:    5:  transverse = new int*[n+1];
-    16016:    6:  this->visited = new int[n+1];
-    16016:    7:  this->sccs = UNDEFINED;
-  8040192:    8:  for( int i=0; i<=n; i++ ){
-  8024176:    9:    transverse[i] = new int[n+1];
+     1001:    3:Directed_IF::Directed_IF(int n) : Graph_IF(n){
+     1001:    4:  str_con_comp = new int[n+1];
+     1001:    5:  transverse = new int*[n+1];
+     1001:    6:  this->visited = new int[n+1];
+     1001:    7:  this->sccs = UNDEFINED;
+   502512:    8:  for( int i=0; i<=n; i++ ){
+   501511:    9:    transverse[i] = new int[n+1];
         -:   10:  }
-    16016:   11:}
-    32032:   12:Directed_IF::~Directed_IF(){
-    16016:   13:  delete[] str_con_comp;
- 16032336:   14:  for( int i=0; i<this->order(); i++ ){
-  8008160:   15:    delete[] transverse[i];
+     1001:   11:}
+     2002:   12:Directed_IF::~Directed_IF(){
+     1001:   13:  delete[] str_con_comp;
+  1002021:   14:  for( int i=0; i<this->order(); i++ ){
+   500510:   15:    delete[] transverse[i];
         -:   16:  }
-    16016:   17:  delete[] transverse;
-    16016:   18:  delete[] visited;
-    16016:   19:}
+     1001:   17:  delete[] transverse;
+     1001:   18:  delete[] visited;
+     1001:   19:}
         -:   20:
     #####:   21:void Directed_IF::remove_edge(int bg, int en){
     #####:   22:  if(bg <= 0 or bg >= this->order()){
@@ -177,4 +177,4 @@
         -:  175:  }
     #####:  176:  this->kosaraju();
     #####:  177:  return this->str_con_comp[v-1];
-       32:  178:}
+        2:  178:}

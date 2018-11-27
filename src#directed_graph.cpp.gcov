@@ -1,8 +1,8 @@
         -:    0:Source:src/directed_graph.cpp
-        -:    0:Programs:99
+        -:    0:Programs:8
         -:    1:#include "directed_graph.h"
         -:    2:
-    16016:    3:Directed::Directed(int n) : Directed_IF(n){ }
+     1001:    3:Directed::Directed(int n) : Directed_IF(n){ }
     #####:    4:Directed::Directed(int n, Edges e) : Directed_IF(n){
     #####:    5:  this->visited = new int[n+1];
     #####:    6:  for( int i=0; i<e.get_size(); i++ ){
@@ -10,28 +10,28 @@
         -:    8:  }
     #####:    9:}
         -:   10:
-    16016:   11:Directed::~Directed(){}
+     1001:   11:Directed::~Directed(){}
         -:   12:
     #####:   13:void Directed::add_edge(int bg, int en){
     #####:   14:  add_edge(bg, en, 1);
     #####:   15:}
-       64:   16:void Directed::add_edge(int bg, int en, int w){
-       64:   17:  if(bg <= 0 or bg > this->order()){
+        4:   16:void Directed::add_edge(int bg, int en, int w){
+        4:   17:  if(bg <= 0 or bg > this->order()){
     #####:   18:    throw std::overflow_error("Posição inicial para a aresta inválida");
-      128:   19:  }if(en <= 0 or en > this->order()){
+        8:   19:  }if(en <= 0 or en > this->order()){
     #####:   20:    throw std::overflow_error("Posição final para a aresta inválida");
-       64:   21:  }if(w == 0){
+        4:   21:  }if(w == 0){
     #####:   22:      throw std::invalid_argument("Valor inválido para aresta");
         -:   23:  }
-       64:   24:  if(!this->matrix[bg][en]){
-       64:   25:    this->matrix[0][0]++;
-       64:   26:    this->matrix[bg][0]++;
-       64:   27:    this->matrix[0][en]++;
+        4:   24:  if(!this->matrix[bg][en]){
+        4:   25:    this->matrix[0][0]++;
+        4:   26:    this->matrix[bg][0]++;
+        4:   27:    this->matrix[0][en]++;
         -:   28:  }
-       64:   29:  if(this->matrix[bg][en] >= 0){
-       64:   30:    if(w < 0)
+        4:   29:  if(this->matrix[bg][en] >= 0){
+        4:   30:    if(w < 0)
     #####:   31:        this->has_negative_weight++;
         -:   32:  }
-       64:   33:  this->matrix[bg][en] = w;
-       64:   34:  this->transverse[en][bg] = w;
-       96:   35:}
+        4:   33:  this->matrix[bg][en] = w;
+        4:   34:  this->transverse[en][bg] = w;
+        6:   35:}

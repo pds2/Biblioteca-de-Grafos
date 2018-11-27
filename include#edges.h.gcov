@@ -1,11 +1,11 @@
         -:    0:Source:include/edges.h
-        -:    0:Programs:99
+        -:    0:Programs:8
         -:    1:#ifndef EDGES_H
         -:    2:#define EDGES_H
         -:    3:
         -:    4:#include <vector>
         -:    5:
-       77:    6:class Edges {
+       11:    6:class Edges {
         -:    7:private:
         -:    8:  std::vector<std::pair<int,std::pair<int, int> > > v;
         -:    9:public:

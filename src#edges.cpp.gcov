@@ -1,35 +1,35 @@
         -:    0:Source:src/edges.cpp
-        -:    0:Programs:99
+        -:    0:Programs:8
         -:    1:#include "edges.h"
         -:    2:#include <stdexcept>
         -:    3:#include <algorithm>
         -:    4:
-     3133:    5:int Edges::get_size(){
-    23584:    6:  return (int)v.size();
+      218:    5:int Edges::get_size(){
+     1618:    6:  return (int)v.size();
         -:    7:}
         -:    8:
-     8659:    9:const std::pair<int,std::pair<int,int> >& Edges::operator [](int idx){
-     8659:   10:  if( idx >= get_size() || idx < 0 ){
-       12:   11:    throw std::range_error("Indice invalido");
+      591:    9:const std::pair<int,std::pair<int,int> >& Edges::operator [](int idx){
+      591:   10:  if( idx >= get_size() || idx < 0 ){
+        2:   11:    throw std::range_error("Indice invalido");
         -:   12:  }
-    17294:   13:  return v[idx];
+     1178:   13:  return v[idx];
         -:   14:}
         -:   15:
-     2327:   16:void Edges::insert(int begin, int end, int weight){
-     2327:   17:  if( begin > 1000 || end > 1000 || begin <= 0 || end <= 0 ){
-       12:   18:    throw std::overflow_error("Aresta invalida");
+      161:   16:void Edges::insert(int begin, int end, int weight){
+      161:   17:  if( begin > 1000 || end > 1000 || begin <= 0 || end <= 0 ){
+        2:   18:    throw std::overflow_error("Aresta invalida");
         -:   19:  }
-     9260:   20:  v.push_back(std::make_pair(begin, std::make_pair(end, weight)));
-     2315:   21:}
+      636:   20:  v.push_back(std::make_pair(begin, std::make_pair(end, weight)));
+      159:   21:}
         -:   22:
-     1307:   23:void Edges::insert(int begin, int end){
-     1307:   24:  insert(begin, end, 1);
-     1307:   25:}
+       96:   23:void Edges::insert(int begin, int end){
+       96:   24:  insert(begin, end, 1);
+       96:   25:}
         -:   26:
-       32:   27:void Edges::sort(){
-      128:   28:  std::sort(v.begin(), v.end(), compare_edges);
-       32:   29:}
+        2:   27:void Edges::sort(){
+        8:   28:  std::sort(v.begin(), v.end(), compare_edges);
+        2:   29:}
         -:   30:
-      336:   31:bool compare_edges(std::pair<int,std::pair<int, int> > p1, std::pair<int,std::pair<int, int> > p2){
-      336:   32:  return p1.second.second < p2.second.second;
+       21:   31:bool compare_edges(std::pair<int,std::pair<int, int> > p1, std::pair<int,std::pair<int, int> > p2){
+       21:   32:  return p1.second.second < p2.second.second;
         -:   33:}
