@@ -31,7 +31,6 @@ Graph_IF::~Graph_IF() {
         delete [] this->matrix;
 }
 
-<<<<<<< HEAD
 int **Graph_IF::get_matrix() {
         return this->matrix;
 }
@@ -40,8 +39,6 @@ int Graph_IF::get_id(int vertex) {
         return this->id[vertex];
 }
 
-=======
->>>>>>> master
 int Graph_IF::has_edge(int bg, int en) {
         if(bg <= 0 or bg > this->order() or en <= 0 or en > this->order()) {
           throw std::overflow_error("Aresta invalida");
