@@ -12,7 +12,6 @@ void DAG::add_edge_useful(int head_vertex, int tail_vertex, int w){
       throw std::overflow_error("Posição inicial para a aresta inválida");
   if(tail_vertex < MIN_GRAPH_SIZE || tail_vertex > this->order())
       throw std::overflow_error("Posição final para a aresta inválida");
-
   if(!this->matrix[head_vertex][tail_vertex]){
       this->matrix[0][0]++;
       this->matrix[head_vertex][0]++;

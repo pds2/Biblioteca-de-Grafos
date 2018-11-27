@@ -1,18 +1,23 @@
 #include "undirected_graph.h"
+#include "tree.h"
 
 // Constructors
 // Creates a undirected graph with n vertex
-Undirected::Undirected(int n) : Undirected_IF(n){ }
+Undirected::Undirected(int n) : Undirected_IF(n){
+  rep = new int[n+1];
+}
 
 // Creates a undirected graph with n vertex and set of edges e
 Undirected::Undirected(int n, Edges e) : Undirected_IF(n){
     for( int i=0; i<e.get_size(); i++ )
         add_edge(e[i].first, e[i].second.first, e[i].second.second);
-
+    rep = new int[n+1];
 }
 
 // Destructor
-Undirected::~Undirected() { }
+Undirected::~Undirected(){
+  delete[] rep;
+}
 
 // Inserts edge with weight 1 in the graph, connecting vertex head and tail
 void Undirected::add_edge(int head_vertex, int tail_vertex){
@@ -41,7 +46,6 @@ void Undirected::add_edge(int head_vertex, int tail_vertex, int w){
     }
     this->matrix[head_vertex][tail_vertex] = w;
     this->matrix[tail_vertex][head_vertex] = w;
-    _union(tail_vertex, head_vertex);
 }
 
 // Removes edge that connects vertex head and tail
@@ -62,51 +66,40 @@ void Undirected::remove_edge(int head_vertex, int tail_vertex){
         this->matrix[tail_vertex][head_vertex] = 0;
     }
 }
-int Undirected::find(int vertex){
-    if (vertex < 0 || vertex > this->vertices)
-        throw std::overflow_error("Vértice não existente no grafo");
-    //The find function finds the Id of a specific vertex, we use it on union
-    if(this->id[vertex]) return get_id(vertex);
-    return id[vertex] = find(id[vertex]);
+
+void Undirected::build(){
+  for( int i=0; i<=this->order(); i++ ){
+    rep[i] = i;
+  }
+}
+void Undirected::unite(int u, int v){
+  rep[find(u)] = find(v);
+}
+int Undirected::find(int a){
+  return rep[a] == a ? a : rep[a] = find(rep[a]);
 }
 
-void Undirected::_union(int vertex_1, int vertex_2){
-    //The union funciontion is used to match the Id of two different vertices
-    vertex_1 = find(vertex_1);
-    vertex_2 = find(vertex_2);
-    int aux;
-    if(vertex_1 < vertex_2){
-        aux = vertex_1;
-        vertex_1 = vertex_2;
-        vertex_2 = aux;
+Tree *Undirected::kruskal(){
+  //The kruskal algorithm is used to find one minimal sub-tree from a graph
+  build();
+  Edges ed;
+  for( int i=1; i<=this->order(); i++ ){
+    for( int j=i+1; j<=this->order(); j++ ){
+      if( !has_edge(i, j) )continue;
+      ed.insert(i, j, has_edge(i, j));
     }
-    if(vertex_1 != vertex_2)
-        id[vertex_1] = vertex_2;
-}
+  }
+  ed.sort();
 
-Undirected Undirected::kruskal(){
-    //The kruskal algorithm is used to find one minimal sub-tree from a graph
-    std::pair <int, int> vertices;
-    Undirected arvore_minima(this->vertices);
-    std::map <int, std::pair<int, int>> mapa;
-    std::map <int, std::pair<int, int>>::iterator it;
-    int aresta;
-    for (int i = 0; i < this->vertices; i++){
-        for (int j = 1; (j + i) < this->vertices; j++){
-            aresta = this->matrix[i][j];
-            vertices.first = i;
-            vertices.second = j;
-            if (aresta != 0){
-                mapa[aresta] = vertices; 
-            }
-        }
+  Edges new_tree;
+  for( int i=0; i<ed.get_size(); i++ ){
+    if( find(ed[i].first) != find(ed[i].second.first) ){
+      unite(ed[i].first, ed[i].second.first);
+      new_tree.insert(ed[i].first, ed[i].second.first, ed[i].second.second);
     }
-    it = mapa.begin();
-    while(it != mapa.end()){
-        if (arvore_minima.find((it->second).first) != arvore_minima.find((it->second).second)){
-            arvore_minima.add_edge((it->second).first, (it->second).second, it->first);
-            it++;
-        }
-    }
-     return arvore_minima;
+  }
+
+  Tree *ret = new Tree(this->order(), 1, new_tree);
+
+  return ret;
 }

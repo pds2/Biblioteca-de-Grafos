@@ -12,9 +12,9 @@ protected:
   int sccs;
   int *visited;
   void kosaraju();
-  void DFS_KOSARAJU(int u, std::stack<int> &pilha);
-  void SCC_KOSARAJU(int v, int cmp);
-  void topological_order(int u, int visited[], std::stack<int> &s);
+  void DFS_KOSARAJU(int u, std::vector<int> &pilha);
+  void DFS_KOSARAJU_TRANSVERSE(int v, int color);
+  void topological_order(int u, std::vector<int> &s);
 public:
   Directed_IF(int n);
   virtual ~Directed_IF();
@@ -24,6 +24,7 @@ public:
   int check_degree_in(int v);
   int check_degree_out(int v);
   int has_cycle();
+  int get_sccs();
   int *topological_order();
   int connected();
   int get_component(int v);

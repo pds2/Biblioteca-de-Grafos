@@ -65,3 +65,53 @@ TEST_CASE("Interface Base - Subgrafo"){
 
   CHECK(!u2.subgraph(u3));
 }
+
+TEST_CASE("Interface Base - Distancias - 1"){
+  Edges ed;
+  ed.insert(1, 2, 1);
+  ed.insert(1, 3, 1);
+  ed.insert(1, 6, 100);
+  ed.insert(2, 4, 1);
+  ed.insert(4, 6, 1);
+  ed.insert(3, 5, 2);
+  ed.insert(5, 6, 2);
+
+  Undirected u(6, ed);
+  CHECK(u.find_distance(1, 2) == 1);
+  CHECK(u.find_distance(1, 3) == 1);
+  CHECK(u.find_distance(1, 4) == 2);
+  CHECK(u.find_distance(1, 5) == 3);
+  CHECK(u.find_distance(1, 6) == 3);
+}
+
+TEST_CASE("Interface Base - Distancias - 2"){
+  Edges ed;
+  ed.insert(1, 2, 1);
+  ed.insert(1, 3, 100);
+  ed.insert(1, 4, 100);
+  ed.insert(1, 5, 100);
+
+  ed.insert(2, 5, 1);
+  ed.insert(5, 4, 1);
+  ed.insert(4, 3, 1);
+  ed.insert(3, 2, 1);
+
+  Undirected u(5, ed);
+
+  CHECK(u.find_distance(1, 2) == 1);
+  CHECK(u.find_distance(1, 3) == 2);
+  CHECK(u.find_distance(1, 5) == 2);
+  CHECK(u.find_distance(1, 4) == 3);
+}
+
+TEST_CASE("Interface Base - Excecoes"){
+  CHECK_THROWS(Undirected(10000));
+  CHECK_THROWS(Undirected(-1));
+
+  Undirected u(3);
+
+  CHECK_THROWS(u.has_edge(-1, 1));
+  CHECK_THROWS(u.has_edge(100000, 1));
+
+  CHECK_THROWS(u.find_distance(-1));
+}
