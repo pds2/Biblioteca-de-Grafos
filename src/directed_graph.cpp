@@ -10,6 +10,21 @@ Directed::Directed(int n, Edges e) : Directed_IF(n){
 
 Directed::~Directed(){}
 
+DAG *Directed::get_compressed_graph(){
+  kosaraju();
+  DAG *dag = new DAG(this->sccs);
+  for(int i = 1; i <= this->order(); i++){
+    for(int j = 1; j <= this->order(); j++){
+        int v = this->str_con_comp[i];
+        int u = this->str_con_comp[j];
+        if(this->matrix[i][j] and v != u){
+            dag->add_edge(v,u);
+        }
+    }
+  }
+  return dag;
+}
+
 void Directed::add_edge(int bg, int en){
   add_edge(bg, en, 1);
 }
@@ -29,6 +44,10 @@ void Directed::add_edge(int bg, int en, int w){
   if(this->matrix[bg][en] >= 0){
     if(w < 0)
         this->has_negative_weight++;
+  }
+  else{
+    if(w > 0)
+        this->has_negative_weight--;
   }
   this->matrix[bg][en] = w;
   this->transverse[en][bg] = w;
