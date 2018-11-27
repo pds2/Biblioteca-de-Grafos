@@ -63,3 +63,15 @@ TEST_CASE("Edges - Sort"){
   CHECK(ed[3].second.first == 2);
   CHECK(ed[3].second.second == 4);
 }
+
+TEST_CASE("Edges - Excecoes"){
+  Edges ed;
+  CHECK_THROWS(ed.insert(-1, 1, 1));
+  CHECK_THROWS(ed.insert(1, 1001, 1));
+
+  ed.insert(1, 2);
+  ed.insert(2, 3);
+
+  CHECK_THROWS(ed[5]);
+  CHECK_THROWS(ed[-1]);
+}

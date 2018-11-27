@@ -1,5 +1,5 @@
         -:    0:Source:src/tree.cpp
-        -:    0:Programs:74
+        -:    0:Programs:99
         -:    1:#include "tree.h"
         -:    2:#include "edges.h"
         -:    3:#include <queue>
@@ -7,164 +7,164 @@
         -:    5:// Constructors
         -:    6:// Creates a tree with n vertex and set of edges e
         -:    7:
-       18:    8:Tree::Tree(int n, int new_root, Edges e) : Undirected_IF(n){
-       18:    9:  parents = NULL;
-       18:   10:  if(new_root < MIN_GRAPH_SIZE || new_root > this->order()){
-    #####:   11:    throw std::overflow_error("Posição invalida para a raiz");
+       77:    8:Tree::Tree(int n, int new_root, Edges e) : Undirected_IF(n){
+       57:    9:  parents = NULL;
+       57:   10:  if(new_root < MIN_GRAPH_SIZE || new_root > this->order()){
+       20:   11:    throw std::overflow_error("Posição invalida para a raiz");
         -:   12:  }
-       18:   13:  root = new_root;
-       36:   14:  if( e.get_size() != n-1 ){
-    #####:   15:    throw std::invalid_argument("Numero de arestas invalido para a Arvore");
+       47:   13:  root = new_root;
+       94:   14:  if( e.get_size() != n-1 ){
+        4:   15:    throw std::invalid_argument("Numero de arestas invalido para a Arvore");
         -:   16:  }
-      252:   17:  for( int i=0; i<e.get_size(); i++ )
-      117:   18:      add_edge(e[i].first, e[i].second.first, e[i].second.second);
+      539:   17:  for( int i=0; i<e.get_size(); i++ )
+      248:   18:      add_edge(e[i].first, e[i].second.first, e[i].second.second);
         -:   19:
-       18:   20:  if( has_cycle() ){
-    #####:   21:    throw std::invalid_argument("Arestas dadas geram ciclo");
+       43:   20:  if( has_cycle() ){
+        6:   21:    throw std::invalid_argument("Arestas dadas geram ciclo");
         -:   22:  }
-       18:   23:  if( !connected() ){
+       37:   23:  if( !connected() ){
     #####:   24:    throw std::invalid_argument("O grafo dado nao e conexo");
         -:   25:  }
-       18:   26:}
+       37:   26:}
         -:   27:
-       12:   28:int Tree::get_root(){
-       12:   29:  return root;
+       20:   28:int Tree::get_root(){
+       20:   29:  return root;
         -:   30:}
-        7:   31:void Tree::set_root(int new_root){
-        7:   32:  if(new_root < MIN_GRAPH_SIZE || new_root > this->order()){
-    #####:   33:    throw std::overflow_error("Posição invalida para a raiz");
+       17:   31:void Tree::set_root(int new_root){
+       17:   32:  if(new_root < MIN_GRAPH_SIZE || new_root > this->order()){
+        4:   33:    throw std::overflow_error("Posição invalida para a raiz");
         -:   34:  }
-        7:   35:  if( parents != NULL ){
-        3:   36:    delete[] parents;
-        3:   37:    parents = NULL;
+       15:   35:  if( parents != NULL ){
+        5:   36:    delete[] parents;
+        5:   37:    parents = NULL;
         -:   38:  }
-        7:   39:  root = new_root;
-        7:   40:}
+       15:   39:  root = new_root;
+       15:   40:}
         -:   41:
         -:   42:// Destructor
-       36:   43:Tree::~Tree(){
-       18:   44:  if( parents != NULL ){
-        9:   45:    delete[] parents;
+       64:   43:Tree::~Tree(){
+       32:   44:  if( parents != NULL ){
+       15:   45:    delete[] parents;
         -:   46:  }
-       18:   47:}
+       32:   47:}
         -:   48:
         -:   49:// Inserts edge with desired weight in the graph, connecting vertex head and tail
-      117:   50:void Tree::add_edge(int head_vertex, int tail_vertex, int w){
-      117:   51:    if(head_vertex < MIN_GRAPH_SIZE || head_vertex > this->order())
+      248:   50:void Tree::add_edge(int head_vertex, int tail_vertex, int w){
+      248:   51:    if(head_vertex < MIN_GRAPH_SIZE || head_vertex > this->order())
     #####:   52:        throw std::overflow_error("Posição inicial para a aresta inválida");
-      234:   53:    if(tail_vertex < MIN_GRAPH_SIZE || tail_vertex > this->order())
+      496:   53:    if(tail_vertex < MIN_GRAPH_SIZE || tail_vertex > this->order())
     #####:   54:        throw std::overflow_error("Posição final para a aresta inválida");
         -:   55:
-      117:   56:    if(!this->matrix[head_vertex][tail_vertex]){
-      117:   57:        this->matrix[0][0]++;
-      117:   58:        this->matrix[head_vertex][0]++;
-      117:   59:        this->matrix[0][tail_vertex]++;
-      117:   60:        this->matrix[0][head_vertex]++;
-      117:   61:        this->matrix[tail_vertex][0]++;
+      248:   56:    if(!this->matrix[head_vertex][tail_vertex]){
+      245:   57:        this->matrix[0][0]++;
+      245:   58:        this->matrix[head_vertex][0]++;
+      245:   59:        this->matrix[0][tail_vertex]++;
+      245:   60:        this->matrix[0][head_vertex]++;
+      245:   61:        this->matrix[tail_vertex][0]++;
         -:   62:    }
-      117:   63:    if(this->matrix[head_vertex][tail_vertex] >= 0){
-      117:   64:        if(w < 0)
+      248:   63:    if(this->matrix[head_vertex][tail_vertex] >= 0){
+      248:   64:        if(w < 0)
     #####:   65:            this->has_negative_weight++;
         -:   66:    }
-      117:   67:    this->matrix[head_vertex][tail_vertex] = w;
-      117:   68:    this->matrix[tail_vertex][head_vertex] = w;
-      117:   69:}
+      248:   67:    this->matrix[head_vertex][tail_vertex] = w;
+      248:   68:    this->matrix[tail_vertex][head_vertex] = w;
+      248:   69:}
         -:   70:
         -:   71:// Lowest Commom Ancestor
-       27:   72:int Tree::LCA(int a, int b){
+       45:   72:int Tree::LCA(int a, int b){
         -:   73:
-       27:   74:    get_parent(1);
+       45:   74:    get_parent(1);
         -:   75:
-       27:   76:    bool *visited = new bool[this->order()+1];
-      243:   77:    for( int i=0; i<=this->order(); i++ ){
-      216:   78:      visited[i] = false;
+       45:   76:    bool *visited = new bool[this->order()+1];
+      405:   77:    for( int i=0; i<=this->order(); i++ ){
+      360:   78:      visited[i] = false;
         -:   79:    }
         -:   80:
-       81:   81:    while( a!=root ){
-       27:   82:      visited[a] = true;
-       27:   83:      a = parents[a];
+      135:   81:    while( a!=root ){
+       45:   82:      visited[a] = true;
+       45:   83:      a = parents[a];
         -:   84:    }
         -:   85:
-       81:   86:    while( b!=root ){
-       45:   87:      if( visited[b] == true){
-       18:   88:        delete[] visited;
-       18:   89:        return b;
+      135:   86:    while( b!=root ){
+       75:   87:      if( visited[b] == true){
+       30:   88:        delete[] visited;
+       30:   89:        return b;
         -:   90:      }
-       27:   91:      b = parents[b];
+       45:   91:      b = parents[b];
         -:   92:    }
         -:   93:
-        9:   94:    delete[] visited;
-        9:   95:    return root;
+       15:   94:    delete[] visited;
+       15:   95:    return root;
         -:   96:}
         -:   97:
-      102:   98:int Tree::get_parent(int v){
-      102:   99:  if(v < MIN_GRAPH_SIZE || v > this->order()){
+      190:   98:int Tree::get_parent(int v){
+      190:   99:  if(v < MIN_GRAPH_SIZE || v > this->order()){
     #####:  100:      throw std::overflow_error("Aresta invalida");
         -:  101:  }
-      102:  102:  if( parents != NULL ){
-       90:  103:    return parents[v];
+      190:  102:  if( parents != NULL ){
+      165:  103:    return parents[v];
         -:  104:  }
-       12:  105:  parents = new int[this->order()+1];
+       25:  105:  parents = new int[this->order()+1];
         -:  106:
-       12:  107:  dfs_parent(root, root);
+       25:  107:  dfs_parent(root, root);
         -:  108:
-       12:  109:  return parents[v];
+       25:  109:  return parents[v];
         -:  110:}
         -:  111:
-       96:  112:void Tree::dfs_parent(int current, int par){
-       96:  113:  parents[current] = par;
-      876:  114:  for( int i=1; i<=this->order(); i++ ){
-      780:  115:    if( !this->matrix[current][i] || i==par )continue;
-       84:  116:    dfs_parent(i, current);
+      185:  112:void Tree::dfs_parent(int current, int par){
+      185:  113:  parents[current] = par;
+     1610:  114:  for( int i=1; i<=this->order(); i++ ){
+     1425:  115:    if( !this->matrix[current][i] || i==par )continue;
+      160:  116:    dfs_parent(i, current);
         -:  117:  }
-       96:  118:}
+      185:  118:}
         -:  119:
-       18:  120:int Tree::num_level(){
-       36:  121:  std::queue<std::pair<int,int> >q;
-       18:  122:  const int end_level = -1;
-       18:  123:  int par, u, levels=0;
+       35:  120:int Tree::num_level(){
+       70:  121:  std::queue<std::pair<int,int> >q;
+       35:  122:  const int end_level = -1;
+       35:  123:  int par, u, levels=0;
         -:  124:
-       54:  125:  q.push(std::make_pair(root, root));
-       36:  126:  q.push(std::make_pair(end_level, end_level));
+      105:  125:  q.push(std::make_pair(root, root));
+       70:  126:  q.push(std::make_pair(end_level, end_level));
         -:  127:
-      201:  128:  while( q.size() ){
-      183:  129:    u = q.front().first;
-      183:  130:    par = q.front().second;
-      183:  131:    q.pop();
-      246:  132:    if( u == end_level ){
-       63:  133:      levels++;
-       63:  134:      if( q.size() ){
-       90:  135:        q.push(std::make_pair(end_level, end_level));
+      375:  128:  while( q.size() ){
+      340:  129:    u = q.front().first;
+      340:  130:    par = q.front().second;
+      340:  131:    q.pop();
+      455:  132:    if( u == end_level ){
+      115:  133:      levels++;
+      115:  134:      if( q.size() ){
+      160:  135:        q.push(std::make_pair(end_level, end_level));
         -:  136:      }
-       63:  137:      continue;
+      115:  137:      continue;
         -:  138:    }
-     1872:  139:    for( int i=1; i<=this->order(); i++ ){
-      876:  140:      if( has_edge(u, i) && i != par ){
-      306:  141:        q.push(std::make_pair(i, u));
+     3395:  139:    for( int i=1; i<=this->order(); i++ ){
+     1585:  140:      if( has_edge(u, i) && i != par ){
+      570:  141:        q.push(std::make_pair(i, u));
         -:  142:      }
         -:  143:    }
         -:  144:  }
-       36:  145:  return levels;
+       70:  145:  return levels;
         -:  146:}
         -:  147:
-       32:  148:int Tree::find_distance(int u, int v){
-       32:  149:  find_distance(u);
-       32:  150:  return distance[v];
+       80:  148:int Tree::find_distance(int u, int v){
+       80:  149:  find_distance(u);
+       80:  150:  return distance[v];
         -:  151:}
-       32:  152:int *Tree::find_distance(int v){
-      320:  153:  for( int i=1; i<=this->order(); i++ ){
-      288:  154:    distance[i] = -1;
+       80:  152:int *Tree::find_distance(int v){
+      800:  153:  for( int i=1; i<=this->order(); i++ ){
+      720:  154:    distance[i] = -1;
         -:  155:  }
-       32:  156:  distance[v] = 0;
-       32:  157:  dfs_distance(v, v);
-       32:  158:  return distance;
+       80:  156:  distance[v] = 0;
+       80:  157:  dfs_distance(v, v);
+       80:  158:  return distance;
         -:  159:}
         -:  160:
-      288:  161:void Tree::dfs_distance(int current, int par){
-     2880:  162:  for( int i=1; i<=this->order(); i++ ){
-     2592:  163:    if( has_edge(current, i) && i!=par ){
-      256:  164:      distance[i] = distance[current] +1;
-      256:  165:      dfs_distance(i, current);
+      720:  161:void Tree::dfs_distance(int current, int par){
+     7200:  162:  for( int i=1; i<=this->order(); i++ ){
+     6480:  163:    if( has_edge(current, i) && i!=par ){
+      640:  164:      distance[i] = distance[current] +1;
+      640:  165:      dfs_distance(i, current);
         -:  166:    }
         -:  167:  }
-      294:  168:}
+      730:  168:}

@@ -91,3 +91,52 @@ TEST_CASE("Undirected - Kruskal"){
   CHECK(t->num_level() == 2);
 
 }
+
+TEST_CASE("Undirected - Bipartite"){
+  Edges ed1;
+  ed1.insert(1, 2);
+  ed1.insert(1, 3);
+  ed1.insert(2, 4);
+  ed1.insert(3, 4);
+
+  Undirected u1(4, ed1);
+
+  CHECK(u1.bipartite() == 1);
+
+  Edges ed2;
+  ed2.insert(1, 2);
+  ed2.insert(1, 3);
+  ed2.insert(2, 4);
+  ed2.insert(3, 4);
+  ed2.insert(1, 5);
+  ed2.insert(2, 5);
+
+  Undirected u2(5, ed2);
+
+  CHECK(u2.bipartite() == 0);
+}
+
+TEST_CASE("Undirected - Euler Graph"){
+  Edges ed1;
+  ed1.insert(1, 2);
+  ed1.insert(1, 3);
+  ed1.insert(2, 3);
+
+  ed1.insert(1, 5);
+  ed1.insert(1, 4);
+  ed1.insert(4, 5);
+
+  Undirected u1(5, ed1);
+
+  CHECK(u1.euler_graph() == 1);
+
+  Edges ed2;
+  ed2.insert(1, 2);
+  ed2.insert(1, 3);
+  ed2.insert(2, 3);
+  ed2.insert(1, 4);
+
+  Undirected u2(5, ed2);
+
+  CHECK(u2.euler_graph() == 0);
+}

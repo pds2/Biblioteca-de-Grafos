@@ -17,7 +17,6 @@ class Undirected_IF : public Graph_IF {
         // Eulerian cycle is an Eulerian trail which starts and ends on the same vertex.
         // Eulerian graph has the prorpety that every vertex is of even degree
         virtual int euler_graph();
-        virtual int get_component(int v);
         virtual int has_cycle();
     private:
         int bipartite_DFS(int curr, int *visited, int *colour);

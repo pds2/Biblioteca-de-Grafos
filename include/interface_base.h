@@ -46,7 +46,6 @@ class Graph_IF {
         // A graph has a cycle when a vertex is reachable from itself,
         // through a path of edges and vertices
         virtual int has_cycle() = 0;
-        virtual int get_component(int v) = 0;
 };
 
 #endif

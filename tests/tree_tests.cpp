@@ -149,3 +149,31 @@ TEST_CASE("Arvore - Distancia"){
   CHECK(t.find_distance(3, 7) == 3);
   CHECK(t.find_distance(6, 8) == 5);
 }
+
+TEST_CASE("Arvores - Excecoes"){
+  Edges ed;
+  ed.insert(1, 2);
+  ed.insert(2, 3);
+  ed.insert(3, 4);
+
+  CHECK_THROWS(Tree(4, -1, ed));
+  CHECK_THROWS(Tree(10, -1, ed));
+
+  ed.insert(3, 1);
+
+  CHECK_THROWS(Tree(5, 1, ed));
+
+  ed.insert(2, 1);
+
+  CHECK_THROWS(Tree(6, 1, ed));
+
+  Edges ed1;
+
+  ed1.insert(1, 2);
+  ed1.insert(2, 3);
+  ed1.insert(3, 4);
+
+  Tree t(4, 1, ed1);
+
+  CHECK_THROWS(t.set_root(-1));
+}

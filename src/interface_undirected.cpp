@@ -13,12 +13,12 @@ int Undirected_IF::bipartite() {
     int *colour = new int[this->vertices+1];
     for(int i = 1; i <= this->vertices; i++) {
         visited[i] = FALSE;
-        colour[0] = FALSE;
+        colour[i] = FALSE;
     }
 
     // Initializes first vertex as visited and with the first colour
     visited[1] = TRUE;
-    colour[1] = TRUE;
+    colour[1] = 1;
 
     if (bipartite_DFS(1, visited, colour)) {
         this->is_bipartite = TRUE;
@@ -82,32 +82,28 @@ int Undirected_IF::has_cycle() {
     return FALSE;
 }
 
-//TODO: implement
-int Undirected_IF::get_component(int v) { return 0; }
-
 /* ----------------------------------- Auxiliary methods ----------------------------------- */
 // Auxiliary bipartite() method, it investigates all adjacent vertex
 // to verify if they were visited and can be coloured, in a Depth First Search
 int Undirected_IF::bipartite_DFS(int curr, int *visited, int *colour) {
     for(int i = 1; i <= this->vertices; i++){
         if (Graph_IF::has_edge(curr, i)){
-            if(visited[curr] == FALSE){
+            if(visited[i] == FALSE){
                 // Mark vertex as visited and colour as opposite to its parent
                 visited[i] = TRUE;
 
                 if(colour[curr] == 1){
                     colour[i] = 2;
-                } else {
+                } else if(colour[curr] == 2){
                     colour[i] = 1;
                 }
 
                 // If  subtree rooted at vertex i is not bipartite, the graph is not
                 if (bipartite_DFS(i, visited, colour) == FALSE)
                     return FALSE;
+            }else if (colour[curr] == colour[i]){
+              return FALSE;
             }
-            // if two adjacent are coloured with same colour, the graph is not bipartite
-            else if (colour[curr] == colour[i])
-                return FALSE;
         }
     }
     return TRUE;
