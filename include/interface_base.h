@@ -23,6 +23,9 @@ class Graph_IF {
         // The distance between two vertices in a graph is
         // the number of edges in a shortest pathconnecting them
         int *distance;
+        //The identity of a vertix is the root of the former tree of the 
+        //component graph, and is the same for all vertices os the same component graph
+        int *id;
         int is_connected;
         int is_bipartite;
         int is_eulerian;
@@ -33,6 +36,7 @@ class Graph_IF {
         virtual int find_distance(int bg, int en);
         virtual int *find_distance(int u);
         int **get_matrix();
+        int get_id(int vertix);
         int has_edge(int bg, int en);
         int order();
         int size();
