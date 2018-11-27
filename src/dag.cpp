@@ -39,7 +39,7 @@ int DAG::find_distance(int u, int v){
   find_distance(u);
   return distance[v];
 }
-int *DAG::find_distance(int v){
+int* DAG::find_distance(int v){
   if(v <= 0 or v > this->order()){
     throw std::overflow_error("Posição inicial para o caminhamento inválida");
   }
