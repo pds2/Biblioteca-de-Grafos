@@ -1,12 +1,15 @@
 #include "interface_directed.h"
+#define aaa std::cout<<"aqui"<<std::endl;
 
 Directed_IF::Directed_IF(int n) : Graph_IF(n){
   str_con_comp = new int[n+1];
   transverse = new int*[n+1];
   this->visited = new int[n+1];
   this->sccs = UNDEFINED;
-  for( int i=0; i<n; i++ ){
+  for( int i=0; i<=n; i++ ){
     transverse[i] = new int[n+1];
+    for(int j = 0; j <= n; j++)
+        transverse[i][j] = 0;
   }
 }
 Directed_IF::~Directed_IF(){
@@ -19,9 +22,9 @@ Directed_IF::~Directed_IF(){
 }
 
 void Directed_IF::remove_edge(int bg, int en){
-  if(bg <= 0 or bg >= this->order()){
+  if(bg <= 0 or bg > this->order()){
      throw std::invalid_argument("Posição inicial para a aresta inválida");
-  }if(en <= 0 or en >= this->order()){
+  }if(en <= 0 or en > this->order()){
      throw std::invalid_argument("Posição final para a aresta inválida");
   }
   if(!this->matrix[bg][en]){
@@ -30,6 +33,7 @@ void Directed_IF::remove_edge(int bg, int en){
   if(this->matrix[bg][en] < 0)
      this->has_negative_weight--;
   this->matrix[bg][en] = 0;
+  this->transverse[en][bg] = 0;
   this->matrix[0][0]--;
   this->matrix[bg][0]--;
   this->matrix[0][en]--;
@@ -130,49 +134,52 @@ int Directed_IF::has_cycle(){
       return 0;
   return 1;
 }
+int Directed_IF::get_sccs(){
+    this->kosaraju();
+    return this->sccs;
+}
 int Directed_IF::connected(){
   this->kosaraju();
   return this->sccs == 1;
 }
 void Directed_IF::kosaraju(){
-    std::stack<int> pilha;
-    for( int i=0; this->order(); i++){
-      visited[i] = 0;
+    std::vector<int> pilha;
+    for(int i = 0; i <= this->order(); i++){
+        visited[i] = 0;
     }
     for(int i = 1; i <= this->order(); i++){
         if(!visited[i])
-            DFS_KOSARAJU(i, pilha);
+            DFS_KOSARAJU(i, 1, 1, pilha);
     }
-    for( int i=0; this->order(); i++){
-      visited[i] = 0;
+    for(int i = 0; i <= this->order(); i++){
+        visited[i] = 0;
     }
-    while(pilha.size()){
-        int u = pilha.top();
-        pilha.pop();
-        if(!visited[u])
-            SCC_KOSARAJU(u,u);
+    this->sccs = 0;
+    for(int i = this->order()-1; i >= 0; i--){
+        if(!visited[pilha[i]])
+            DFS_KOSARAJU(pilha[i], 2, ++this->sccs, pilha);
     }
 }
-void Directed_IF::DFS_KOSARAJU(int v, std::stack<int> &pilha){
+void Directed_IF::DFS_KOSARAJU(int v, int pass, int color, std::vector<int> &pilha){
     this->visited[v] = 1;
-    for(int i = 1; i <= this->order(); i++){
-        if(this->matrix[v][i] and !visited[i])
-            DFS_KOSARAJU(i, pilha);
+    this->str_con_comp[v] = color;
+    int *vizinhos = nullptr;
+    if(pass == 1){
+        vizinhos = this->matrix[v];
+    }else{
+        vizinhos = this->transverse[v];
     }
-    pilha.push(v);
-}
-void Directed_IF::SCC_KOSARAJU(int v, int cmp){
-    this->visited[v] = 1;
-    this->str_con_comp[v] = cmp;
     for(int i = 1; i <= this->order(); i++){
-        if(this->transverse[v][i] and !visited[i])
-            SCC_KOSARAJU(i, cmp);
+        if(vizinhos[i] and !visited[i])
+            DFS_KOSARAJU(i, pass, color, pilha);
     }
+    pilha.push_back(v);
 }
 int Directed_IF::get_component(int v){
   if(v <= 0 or v > this->order()){
       throw std::overflow_error("Este vértice não está no grafo");
   }
+  aaa
   this->kosaraju();
-  return this->str_con_comp[v-1];
+  return this->str_con_comp[v];
 }
