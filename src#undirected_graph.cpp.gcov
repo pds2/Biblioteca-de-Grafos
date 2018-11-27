@@ -1,0 +1,65 @@
+        -:    0:Source:src/undirected_graph.cpp
+        -:    0:Programs:74
+        -:    1:#include "undirected_graph.h"
+        -:    2:
+        -:    3:// Constructors
+        -:    4:// Creates a undirected graph with n vertex
+       52:    5:Undirected::Undirected(int n) : Undirected_IF(n){ }
+        -:    6:
+        -:    7:// Creates a undirected graph with n vertex and set of edges e
+      103:    8:Undirected::Undirected(int n, Edges e) : Undirected_IF(n){
+     1127:    9:    for( int i=0; i<e.get_size(); i++ )
+     1024:   10:        add_edge(e[i].first, e[i].second.first, e[i].second.second);
+        -:   11:
+      103:   12:}
+        -:   13:
+        -:   14:// Destructor
+      155:   15:Undirected::~Undirected() { }
+        -:   16:
+        -:   17:// Inserts edge with weight 1 in the graph, connecting vertex head and tail
+       26:   18:void Undirected::add_edge(int head_vertex, int tail_vertex){
+       26:   19:    this->add_edge(head_vertex, tail_vertex, DEFAULT_EDGE_WEIGHT);
+       26:   20:}
+        -:   21:
+        -:   22:// Inserts edge with desired weight in the graph, connecting vertex head and tail
+     1089:   23:void Undirected::add_edge(int head_vertex, int tail_vertex, int w){
+        -:   24:    // Treats overflow cases for edge position
+     1089:   25:    if(head_vertex < MIN_GRAPH_SIZE || head_vertex > this->order())
+    #####:   26:        throw std::overflow_error("Posição inicial para a aresta inválida");
+     2178:   27:    if(tail_vertex < MIN_GRAPH_SIZE || tail_vertex > this->order())
+    #####:   28:        throw std::overflow_error("Posição final para a aresta inválida");
+        -:   29:
+     1089:   30:    if(!this->matrix[head_vertex][tail_vertex]) {
+      699:   31:        this->matrix[0][0]++;
+      699:   32:        this->matrix[head_vertex][0]++;
+      699:   33:        this->matrix[0][tail_vertex]++;
+      699:   34:        this->matrix[0][head_vertex]++;
+      699:   35:        this->matrix[tail_vertex][0]++;
+        -:   36:    }
+        -:   37:    // Treats negative weight cases
+     1089:   38:    if(this->matrix[head_vertex][tail_vertex] >= 0) {
+     1089:   39:        if(w < 0)
+       26:   40:            this->has_negative_weight++;
+        -:   41:    }
+     1089:   42:    this->matrix[head_vertex][tail_vertex] = w;
+     1089:   43:    this->matrix[tail_vertex][head_vertex] = w;
+     1089:   44:}
+        -:   45:
+        -:   46:// Removes edge that connects vertex head and tail
+       39:   47:void Undirected::remove_edge(int head_vertex, int tail_vertex){
+        -:   48:    // Treats overflow cases for edge position
+       39:   49:    if(head_vertex < MIN_GRAPH_SIZE || head_vertex > this->order())
+    #####:   50:        throw std::overflow_error("Posição inicial para a aresta inválida");
+       39:   51:    if(head_vertex < MIN_GRAPH_SIZE || tail_vertex > this->order())
+    #####:   52:        throw std::overflow_error("Posição final para a aresta inválida");
+        -:   53:
+       39:   54:    if (this->matrix[head_vertex][tail_vertex] != 0) {
+       39:   55:        this->matrix[0][0]--;
+       39:   56:        this->matrix[head_vertex][0]--;
+       39:   57:        this->matrix[0][tail_vertex]--;
+       39:   58:        this->matrix[0][head_vertex]--;
+       39:   59:        this->matrix[tail_vertex][0]--;
+       39:   60:        this->matrix[head_vertex][tail_vertex] = 0;
+       39:   61:        this->matrix[tail_vertex][head_vertex] = 0;
+        -:   62:    }
+       65:   63:}

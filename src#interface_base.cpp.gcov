@@ -1,0 +1,116 @@
+        -:    0:Source:src/interface_base.cpp
+        -:    0:Programs:74
+        -:    1:#include "interface_base.h"
+        -:    2:#include "constants.h"
+        -:    3:
+     5097:    4:Graph_IF::Graph_IF(int n) {
+     5097:    5:        if(n < MIN_GRAPH_SIZE or n > MAX_GRAPH_SIZE) {
+    #####:    6:                throw std::overflow_error("Tamanho inválido para o grafo!");
+        -:    7:        }
+     5097:    8:        this->vertices = n;
+     5097:    9:        this->has_negative_weight = 0;
+     5097:   10:        this->distance = new int[n+1];
+     5097:   11:        this->matrix = new int*[n+1];
+  5026512:   12:        for(int i = 0; i <= n; i++) {
+  2508159:   13:                this->matrix[i] = new int[n+1];
+1676690538:   14:                for( int j=0; j<=n; j++ ){
+1674182379:   15:                  matrix[i][j] = 0;
+        -:   16:                }
+        -:   17:        }
+     5097:   18:        this->is_connected = UNDEFINED;
+     5097:   19:        this->is_bipartite = UNDEFINED;
+     5097:   20:        this->is_eulerian = UNDEFINED;
+     5097:   21:}
+        -:   22:
+    10194:   23:Graph_IF::~Graph_IF() {
+  2508159:   24:        while(this->vertices--) {
+  2503062:   25:                delete [] this->matrix[this->vertices];
+        -:   26:        }
+     5097:   27:        this->edges = this->has_negative_weight = 0;
+     5097:   28:        delete [] this->distance;
+     5097:   29:        delete [] this->matrix;
+     5097:   30:}
+        -:   31:
+     7321:   32:int Graph_IF::has_edge(int bg, int en) {
+    14642:   33:        if(bg <= 0 or bg > this->order() or en <= 0 or en > this->order()) {
+    #####:   34:          throw std::overflow_error("Aresta invalida");
+        -:   35:        }
+     7321:   36:        return this->matrix[bg][en];
+        -:   37:}
+        -:   38:
+  2515891:   39:int Graph_IF::order() {
+  2523565:   40:        return this->vertices;
+        -:   41:}
+        5:   42:int Graph_IF::size() {
+        5:   43:        return this->matrix[0][0];
+        -:   44:}
+       41:   45:int Graph_IF::find_distance(int bg, int en){
+       41:   46:    find_distance(bg);
+       41:   47:    return distance[en];
+        -:   48:}
+       41:   49:int *Graph_IF::find_distance(int u){
+       41:   50:  if(this->has_negative_weight){
+    #####:   51:      throw std::invalid_argument("Não é possível realizar o dijkstra em Grafos com arestas de valores negativos");
+        -:   52:  }
+       41:   53:  dijkstra(u);
+       41:   54:  return distance;
+        -:   55:}
+       41:   56:int *Graph_IF::dijkstra(int bg){
+       82:   57:  if(bg <= 0 or bg > this->order()){
+    #####:   58:    throw std::overflow_error("Posição inicial para o caminhamento inválida");
+        -:   59:  }
+      583:   60:  for( int i=0; i<=this->order(); i++ ){
+      271:   61:    distance[i] = INF;
+        -:   62:  }
+       41:   63:  this->distance[bg] = 0;
+       82:   64:  std::priority_queue<std::pair<int,int> > q;
+       82:   65:  q.push(std::make_pair(0, bg));
+      344:   66:  while(!q.empty()){
+      303:   67:      int dis = -q.top().first;
+      303:   68:      int u = q.top().second;
+      303:   69:      q.pop();
+      303:   70:      if(dis > this->distance[u])
+       73:   71:          continue;
+     2830:   72:      for(int i = 1; i <= this->vertices; i++){
+     1300:   73:          int w = this->matrix[u][i];
+     1300:   74:          if(!this->matrix[u][i]) continue;
+      606:   75:          if(this->distance[i] > this->distance[u] + w){
+      262:   76:              this->distance[i] = this->distance[u] + w;
+      524:   77:              q.push(std::make_pair(-this->distance[i], i));
+        -:   78:          }
+        -:   79:      }
+        -:   80:  }
+       82:   81:  return this->distance;
+        -:   82:}
+        5:   83:int Graph_IF::complete() {
+       30:   84:        for(int i = 1; i <= this->vertices; i++) {
+       25:   85:                int in_g = matrix[0][i];
+       25:   86:                int out_g = matrix[i][0];
+       25:   87:                if(in_g != out_g or in_g != this->vertices - 1)
+        -:   88:                        return FALSE;
+        -:   89:        }
+        -:   90:        return TRUE;
+        -:   91:}
+        5:   92:int Graph_IF::regular() {
+        5:   93:        int in = matrix[0][1];
+        5:   94:        int out = matrix[1][0];
+       30:   95:        for(int i = 1; i <= this->vertices; i++) {
+       25:   96:                if(in != matrix[0][i])
+        -:   97:                        return FALSE;
+       25:   98:                if(out != matrix[i][0])
+        -:   99:                        return FALSE;
+        -:  100:        }
+        -:  101:        return TRUE;
+        -:  102:}
+       15:  103:int Graph_IF::subgraph(Graph_IF &g) {
+       15:  104:        if(g.vertices > this->vertices)
+        -:  105:                return FALSE;
+        -:  106:
+       85:  107:        for(int i = 1; i <= g.vertices; i++) {
+      435:  108:                for(int j = 1; j <= g.vertices; j++) {
+      205:  109:                        if(g.matrix[i][j] and !this->matrix[i][j])
+        -:  110:                                return FALSE;
+        -:  111:                }
+        -:  112:        }
+        -:  113:        return TRUE;
+       10:  114:}

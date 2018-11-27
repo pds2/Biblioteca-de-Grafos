@@ -14,4 +14,6 @@ public:
   void insert(int begin, int end);
 };
 
+bool compare_edges(std::pair<int,std::pair<int, int> > p1, std::pair<int,std::pair<int, int> > p2);
+
 #endif

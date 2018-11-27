@@ -25,5 +25,9 @@ void Edges::insert(int begin, int end){
 }
 
 void Edges::sort(){
-  std::sort(v.begin(), v.end());
+  std::sort(v.begin(), v.end(), compare_edges);
+}
+
+bool compare_edges(std::pair<int,std::pair<int, int> > p1, std::pair<int,std::pair<int, int> > p2){
+  return p1.second.second < p2.second.second;
 }

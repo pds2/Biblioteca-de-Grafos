@@ -8,7 +8,6 @@ class Tree : public Undirected_IF{
 private:
   int root;
   int *parents;
-  void add_edge(int head_vertex, int tail_vertex);
   void add_edge(int head_vertex, int tail_vertex, int weight);
   void dfs_parent(int current, int par);
   void dfs_distance(int current, int par);

@@ -58,7 +58,7 @@ int *Graph_IF::dijkstra(int bg){
     throw std::overflow_error("Posição inicial para o caminhamento inválida");
   }
   for( int i=0; i<=this->order(); i++ ){
-    distance[i] = 0;
+    distance[i] = INF;
   }
   this->distance[bg] = 0;
   std::priority_queue<std::pair<int,int> > q;
@@ -71,8 +71,7 @@ int *Graph_IF::dijkstra(int bg){
           continue;
       for(int i = 1; i <= this->vertices; i++){
           int w = this->matrix[u][i];
-          if(!this->matrix[u][i])
-              continue;
+          if(!this->matrix[u][i]) continue;
           if(this->distance[i] > this->distance[u] + w){
               this->distance[i] = this->distance[u] + w;
               q.push(std::make_pair(-this->distance[i], i));

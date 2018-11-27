@@ -1,0 +1,31 @@
+        -:    0:Source:src/edges.cpp
+        -:    0:Programs:74
+        -:    1:#include "edges.h"
+        -:    2:#include <stdexcept>
+        -:    3:#include <algorithm>
+        -:    4:
+     1728:    5:int Edges::get_size(){
+    12516:    6:  return (int)v.size();
+        -:    7:}
+        -:    8:
+     4530:    9:const std::pair<int,std::pair<int,int> >& Edges::operator [](int idx){
+     4530:   10:  if( idx >= get_size() || idx < 0 ){
+    #####:   11:    throw std::range_error("Indice invalido");
+        -:   12:  }
+     9060:   13:  return v[idx];
+        -:   14:}
+        -:   15:
+     1146:   16:void Edges::insert(int begin, int end, int weight){
+     1146:   17:  if( begin > 1000 || end > 1000 || begin <= 0 || end <= 0 ){
+    #####:   18:    throw std::overflow_error("Aresta invalida");
+        -:   19:  }
+     4584:   20:  v.push_back(std::make_pair(begin, std::make_pair(end, weight)));
+     1146:   21:}
+        -:   22:
+      798:   23:void Edges::insert(int begin, int end){
+      798:   24:  insert(begin, end, 1);
+      798:   25:}
+        -:   26:
+    #####:   27:void Edges::sort(){
+    #####:   28:  std::sort(v.begin(), v.end());
+    #####:   29:}

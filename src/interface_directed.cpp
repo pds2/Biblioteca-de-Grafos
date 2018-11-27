@@ -5,7 +5,7 @@ Directed_IF::Directed_IF(int n) : Graph_IF(n){
   transverse = new int*[n+1];
   this->visited = new int[n+1];
   this->sccs = UNDEFINED;
-  for( int i=0; i<n; i++ ){
+  for( int i=0; i<=n; i++ ){
     transverse[i] = new int[n+1];
   }
 }

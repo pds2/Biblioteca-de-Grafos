@@ -115,3 +115,37 @@ TEST_CASE("Arvore - Mudando a raiz"){
   CHECK(t.get_parent(8) == 7);
   CHECK(t.get_parent(9) == 8);
 }
+
+TEST_CASE("Arvore - Distancia"){
+  Edges ed;
+  ed.insert(1, 2);
+  ed.insert(1, 3);
+  ed.insert(1, 4);
+
+  ed.insert(2, 5);
+  ed.insert(2, 6);
+
+  ed.insert(4, 7);
+  ed.insert(7, 8);
+  ed.insert(8, 9);
+
+  Tree t(9, 1, ed);
+
+  CHECK(t.find_distance(1, 2) == 1);
+  CHECK(t.find_distance(1, 3) == 1);
+  CHECK(t.find_distance(1, 4) == 1);
+  CHECK(t.find_distance(1, 5) == 2);
+  CHECK(t.find_distance(1, 6) == 2);
+  CHECK(t.find_distance(1, 7) == 2);
+  CHECK(t.find_distance(1, 8) == 3);
+  CHECK(t.find_distance(1, 9) == 4);
+
+  CHECK(t.find_distance(9, 5) == 6);
+  CHECK(t.find_distance(9, 6) == 6);
+  CHECK(t.find_distance(1, 1) == 0);
+  CHECK(t.find_distance(3, 5) == 3);
+  CHECK(t.find_distance(6, 4) == 3);
+  CHECK(t.find_distance(8, 7) == 1);
+  CHECK(t.find_distance(3, 7) == 3);
+  CHECK(t.find_distance(6, 8) == 5);
+}
