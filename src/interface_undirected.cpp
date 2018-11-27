@@ -6,6 +6,12 @@ Undirected_IF::Undirected_IF(int n) : Graph_IF(n) {}
 // Destructor (implementation from parent's virtual)
 Undirected_IF::~Undirected_IF() { }
 
+int Undirected_IF::check_degree(int v){
+    if(v <= 0 or v > this->order()){
+        throw std::overflow_error("Vértice inválido");
+    }
+    return this->matrix[0][v];
+}
 // From the first vertex in the matrix, will verify if the graph can be coloured with 2 colours
 int Undirected_IF::bipartite() {
     // Mark all the this->vertices as not visited, and vertex colour as blank

@@ -80,6 +80,7 @@ int Undirected::find(int a){
 }
 
 Tree *Undirected::kruskal(){
+  //The kruskal algorithm is used to find one minimal sub-tree from a graph
   build();
   Edges ed;
   for( int i=1; i<=this->order(); i++ ){

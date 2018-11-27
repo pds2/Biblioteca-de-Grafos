@@ -2,8 +2,6 @@
 #include "edges.h"
 #include "doctest.h"
 
-
-
 TEST_CASE("TESTE - Construtor com vertices"){
     CHECK_NOTHROW(Undirected u(5));
 }
@@ -43,6 +41,13 @@ TEST_CASE("TESTE - Adicionar aresta com pesos"){
   CHECK(ug.has_edge(2, 3) == -3);
   CHECK(ug.has_edge(4, 2) == 0);
   CHECK(ug.has_edge(2, 4) == 0);
+}
+
+TEST_CASE("Adicionando edge com vertices invalidos"){
+	Undirected u(20);
+	CHECK_THROWS(u.add_edge(-2, 5));
+	CHECK_THROWS(u.add_edge(3, 25));
+	CHECK_THROWS(u.add_edge(-1000, 72));
 }
 TEST_CASE("TESTE - Remover aresta"){
   Edges ed;
