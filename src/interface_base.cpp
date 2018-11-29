@@ -33,6 +33,29 @@ int **Graph_IF::get_matrix() {
         return this->matrix;
 }
 
+void Graph_IF::add_edge_useful(int bg, int en, int w){
+  if(bg < MIN_GRAPH_SIZE or bg > this->order()){
+    throw std::overflow_error("Posição inicial para a aresta inválida");
+  }if(en < MIN_GRAPH_SIZE or en > this->order()){
+    throw std::overflow_error("Posição final para a aresta inválida");
+  }if(w == 0){
+      throw std::invalid_argument("Valor inválido para aresta");
+  }
+  if(!this->matrix[bg][en]){
+    this->matrix[0][0]++;
+    this->matrix[bg][0]++;
+    this->matrix[0][en]++;
+  }
+  if(this->matrix[bg][en] >= 0){
+    if(w < 0)
+        this->has_negative_weight++;
+  }
+  else{
+    if(w > 0)
+        this->has_negative_weight--;
+  }
+  this->matrix[bg][en] = w;
+}
 
 int Graph_IF::has_edge(int bg, int en) {
         if(bg <= 0 or bg > this->order() or en <= 0 or en > this->order()) {

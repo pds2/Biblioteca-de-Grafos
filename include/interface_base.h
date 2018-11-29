@@ -29,6 +29,7 @@ class Graph_IF {
         int is_bipartite;
         int is_eulerian;
         int *dijkstra(int bg);
+        void add_edge_useful(int bg, int en, int w);
     public:
         Graph_IF(int n);
         virtual ~Graph_IF();

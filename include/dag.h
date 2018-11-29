@@ -5,7 +5,7 @@
 
 class DAG : public Directed_IF{
 private:
-  void add_edge_useful(int head_vertex, int tail_vertex, int w);
+  // void add_edge_useful(int head_vertex, int tail_vertex, int w);
 public:
   DAG(int n);
   DAG(int n, Edges e);

@@ -6,7 +6,7 @@
    CHECK_NOTHROW(Undirected u(10));
   }
 
-TEST_CASE("Interface Base - Testes Basiscos"){
+TEST_CASE("Interface Base - Testes Basicos"){
   Edges ed;
 
   for( int i=1; i<=5; i++ ){

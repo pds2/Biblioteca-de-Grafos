@@ -27,25 +27,11 @@ void Undirected::add_edge(int head_vertex, int tail_vertex){
 // Inserts edge with desired weight in the graph, connecting vertex head and tail
 void Undirected::add_edge(int head_vertex, int tail_vertex, int w){
     // Treats overflow cases for edge position
-    if(head_vertex < MIN_GRAPH_SIZE || head_vertex > this->order())
-        throw std::overflow_error("Posição inicial para a aresta inválida");
-    if(tail_vertex < MIN_GRAPH_SIZE || tail_vertex > this->order())
-        throw std::overflow_error("Posição final para a aresta inválida");
-
-    if(!this->matrix[head_vertex][tail_vertex]) {
-        this->matrix[0][0]++;
-        this->matrix[head_vertex][0]++;
-        this->matrix[0][tail_vertex]++;
-        this->matrix[0][head_vertex]++;
-        this->matrix[tail_vertex][0]++;
+    if( !has_edge(head_vertex, tail_vertex) ){
+      matrix[0][0]--;
     }
-    // Treats negative weight cases
-    if(this->matrix[head_vertex][tail_vertex] >= 0) {
-        if(w < 0)
-            this->has_negative_weight++;
-    }
-    this->matrix[head_vertex][tail_vertex] = w;
-    this->matrix[tail_vertex][head_vertex] = w;
+    add_edge_useful(head_vertex, tail_vertex, w);
+    add_edge_useful(tail_vertex, head_vertex, w);
 }
 
 // Removes edge that connects vertex head and tail

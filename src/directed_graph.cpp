@@ -29,26 +29,6 @@ void Directed::add_edge(int bg, int en){
   add_edge(bg, en, 1);
 }
 void Directed::add_edge(int bg, int en, int w){
-  if(bg <= 0 or bg > this->order()){
-    throw std::overflow_error("Posição inicial para a aresta inválida");
-  }if(en <= 0 or en > this->order()){
-    throw std::overflow_error("Posição final para a aresta inválida");
-  }if(w == 0){
-      throw std::invalid_argument("Valor inválido para aresta");
-  }
-  if(!this->matrix[bg][en]){
-    this->matrix[0][0]++;
-    this->matrix[bg][0]++;
-    this->matrix[0][en]++;
-  }
-  if(this->matrix[bg][en] >= 0){
-    if(w < 0)
-        this->has_negative_weight++;
-  }
-  else{
-    if(w > 0)
-        this->has_negative_weight--;
-  }
-  this->matrix[bg][en] = w;
+  add_edge_useful(bg, en, w);
   this->transverse[en][bg] = w;
 }

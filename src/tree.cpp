@@ -48,24 +48,11 @@ Tree::~Tree(){
 
 // Inserts edge with desired weight in the graph, connecting vertex head and tail
 void Tree::add_edge(int head_vertex, int tail_vertex, int w){
-    if(head_vertex < MIN_GRAPH_SIZE || head_vertex > this->order())
-        throw std::overflow_error("Posição inicial para a aresta inválida");
-    if(tail_vertex < MIN_GRAPH_SIZE || tail_vertex > this->order())
-        throw std::overflow_error("Posição final para a aresta inválida");
-
-    if(!this->matrix[head_vertex][tail_vertex]){
-        this->matrix[0][0]++;
-        this->matrix[head_vertex][0]++;
-        this->matrix[0][tail_vertex]++;
-        this->matrix[0][head_vertex]++;
-        this->matrix[tail_vertex][0]++;
-    }
-    if(this->matrix[head_vertex][tail_vertex] >= 0){
-        if(w < 0)
-            this->has_negative_weight++;
-    }
-    this->matrix[head_vertex][tail_vertex] = w;
-    this->matrix[tail_vertex][head_vertex] = w;
+  if( !has_edge(head_vertex, tail_vertex) ){
+    matrix[0][0]--;
+  }
+  add_edge_useful(head_vertex, tail_vertex, w);
+  add_edge_useful(tail_vertex, head_vertex, w);
 }
 
 // Lowest Commom Ancestor
