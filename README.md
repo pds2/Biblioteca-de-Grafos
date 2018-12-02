@@ -3,19 +3,22 @@
 
 
 ## Authors/Autores:  
-[Laura - 2013007544](https://github.com/laura-vianna)
+[Caio - 2017068734](https://github.com/caiocaldeira3)   
+[Henrique - 2017095731](https://github.com/Henrique-Brito)   
+[Laura - 2013007544](https://github.com/laura-vianna)   
+[Pedro - 2017014391](https://github.com/PedroBustamante)   
 
 ## How to build and execute this project/como compilar e executar esse projeto:
 ### Dependencies/Dependências de projeto:
 * Compilador `g++`
 ### Build project/Compilar projeto:
 `make`
-### Build specific file from Makefile/Compilar ariquivo específico do Makefile:
-`make file_name.o`
+### Test project/Testar projeto:
+`make tests`
+### Test coverage of project/Cobertura de testes do projeto:
+`make`
 ### Clean binaries/Limpar arquivos binários (.exe, .out, .o):
 `make clean`
-### Execute program/Executar programa:
-`./graph_library`
 
 
 ## Description/Descrição:
